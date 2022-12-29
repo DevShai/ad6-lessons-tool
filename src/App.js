@@ -1,13 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-import LessonsList from './components/LessonsList';
+
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
     <div className="App">
-      <h1>Ad6 Admin Tool</h1>
+      <MainPage/>
 
-      <LessonsList lessons={["a", "b"]}/>
     </div>
   );
 }

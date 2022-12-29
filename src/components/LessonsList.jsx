@@ -14,11 +14,9 @@ export default function LessonsList(props) {
 
     return (
         <Container fluid className="lessons-list">
-            {lessons.map((value) =>
-                <LessonCard lesson_name={value}/>
+            {lessons.map((value, idx) =>
+                <LessonCard lesson_name={value} key={idx}/>
             )}
-
-            <Button>יצירת שיעור חדש</Button>
         </Container>
     )
 }
