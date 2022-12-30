@@ -9,13 +9,14 @@ export default function LessonsList(props) {
     useEffect(() => {
         if (props.lessons) {
             setLessons(props.lessons)
+            console.log(props.lessons)
         }
     }, [props.lessons])
 
     return (
         <Container fluid className="lessons-list">
             {lessons.map((value, idx) =>
-                <LessonCard lesson_name={value} key={idx}/>
+                <LessonCard lesson_name={value.lesson_name} key={idx}/>
             )}
         </Container>
     )

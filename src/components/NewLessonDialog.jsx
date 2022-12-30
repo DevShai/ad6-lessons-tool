@@ -8,15 +8,20 @@ import '../styles/NewLessonDialog.css'
 export default function NewLessonDialog(props) {
 
     const [lessonData, setLessonData] = useState({
-        name: '',
-        sound: 'mixed',
-        letters: [],
-        exam: false,
-        shuffle: false,
+        lesson_name: '',
+        vowel: 'mixed',
+        lesson_letters: [],
+        is_exam: false,
+        shuffle_questions: false,
     })
 
+    const onSubmit = function() {
+        props.saveLesson(lessonData)
+        props.onHide()
+    }
+
     const form = (
-        <Form>
+        <Form onSubmit={() => onSubmit()}>
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
                     שם השיעור
@@ -26,7 +31,7 @@ export default function NewLessonDialog(props) {
                     required 
                     type="text" 
                     placeholder="" 
-                    onChange={(e) => setLessonData({...lessonData, name: e.target.value})}/>
+                    onChange={(e) => setLessonData({...lessonData, lesson_name: e.target.value})}/>
                 </Col>
             </Form.Group>
     
@@ -35,7 +40,7 @@ export default function NewLessonDialog(props) {
                     צליל השיעור
                 </Form.Label>
                 <Col sm={10}>
-                    <Form.Select onChange={(e) => setLessonData({...lessonData, sound: e.target.value})}>
+                    <Form.Select onChange={(e) => setLessonData({...lessonData, vowel: e.target.value})}>
                         <option value="mixed">מעורב</option>
                         <option value="a">קמץ, פתח</option>
                         <option value="e">חיריק</option>
@@ -63,7 +68,7 @@ export default function NewLessonDialog(props) {
                     <Form.Check
                         type="switch"
                         id="is_test"
-                        onChange={(e) => setLessonData({...lessonData, exam: e.target.checked})}
+                        onChange={(e) => setLessonData({...lessonData, is_exam: e.target.checked})}
                     />
                 </Col>
             </Form.Group>
@@ -76,7 +81,7 @@ export default function NewLessonDialog(props) {
                     <Form.Check
                         type="switch"
                         id="is_shuffle"
-                        onChange={(e) => setLessonData({...lessonData, shuffle: e.target.checked})}
+                        onChange={(e) => setLessonData({...lessonData, shuffle_questions: e.target.checked})}
                     />
                 </Col>
             </Form.Group>

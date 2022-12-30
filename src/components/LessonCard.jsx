@@ -7,7 +7,7 @@ export default function LessonCard(props) {
       <Card.Body>
         <Card.Title>{props.lesson_name}</Card.Title>
         <Card.Link href="#">עריכה</Card.Link> <br/>
-        <Card.Link href="#">צפייה</Card.Link>
+        <Card.Link href="#">ייצוא</Card.Link>
       </Card.Body>
     </Card>
   );
