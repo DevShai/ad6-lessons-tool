@@ -16,7 +16,10 @@ export default function LessonsList(props) {
     return (
         <Container fluid className="lessons-list">
             {lessons.map((value, idx) =>
-                <LessonCard lesson_name={value.lesson_name} key={idx}/>
+                <LessonCard
+                    lesson_name={value.lesson_name}
+                    key={idx}
+                    deleteLesson={() => props.deleteLesson(idx)} />
             )}
         </Container>
     )

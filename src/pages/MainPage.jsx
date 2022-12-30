@@ -13,7 +13,7 @@ export default function MainPage() {
         try {
             var list = JSON.parse(localStorage.getItem("lessons"))
             return list
-        } catch(_e) {
+        } catch (_e) {
             return []
         }
     }
@@ -25,6 +25,12 @@ export default function MainPage() {
     const addNewLesson = function (lessonData) {
         var newList = [...lessonsList]
         newList.push(lessonData)
+        setLessonsList(newList)
+    }
+
+    const deleteLesson = function (idx) {
+        var newList = [...lessonsList]
+        newList.splice(idx, 1)
         setLessonsList(newList)
     }
 
@@ -42,14 +48,17 @@ export default function MainPage() {
         <div className="MainPage">
             <h1>Ad6 Admin Tool</h1>
 
-            <LessonsList lessons={lessonsList} />
+            <LessonsList
+                lessons={lessonsList}
+                deleteLesson={deleteLesson} />
 
             <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
 
             <NewLessonDialog
                 visible={modalVisible}
                 onHide={() => setModalVisible(false)}
-                saveLesson={addNewLesson} />
+                saveLesson={addNewLesson}
+                deleteLesson={deleteLesson} />
 
         </div>
     );
