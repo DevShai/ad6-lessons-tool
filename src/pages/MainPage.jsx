@@ -12,8 +12,11 @@ export default function MainPage() {
     const retrieveLessons = function () {
         try {
             var list = JSON.parse(localStorage.getItem("lessons"))
-            return list
-        } catch (_e) {
+            if (list != null) {
+                return list
+            }
+
+        } finally {
             return []
         }
     }
