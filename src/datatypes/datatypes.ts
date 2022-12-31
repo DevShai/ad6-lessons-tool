@@ -1,4 +1,4 @@
-enum VOWEL {
+export enum VOWEL {
     MIXED = "מעורב",
     A = "קמץ, פתח",
     E = "חיריק",
@@ -23,20 +23,20 @@ interface WordData {
     texture: any
 }
 
-class Lesson {
+export class Lesson {
     lesson_name: string
     vowel: VOWEL
     lesson_letters: Array<string>
     is_exam: boolean
     shuffle_questions: boolean
 
-    constructor(name: string, vowel: VOWEL = VOWEL.MIXED, letters: Array<string> = [], is_exam: boolean, shuffle: boolean) {
+    /* constructor(name: string = "", vowel: VOWEL = VOWEL.MIXED, letters: Array<string> = [], is_exam: boolean, shuffle: boolean) {
         this.lesson_name = name
         this.vowel = vowel
         this.lesson_letters = letters
         this.is_exam = is_exam
         this.shuffle_questions = shuffle
-    }
+    } */
 }
 
 class MultipleSelectionQuestion {

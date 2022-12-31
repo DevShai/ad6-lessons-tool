@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import '../styles/MainPage.css'
-
-
+import { Lesson, VOWEL } from '../datatypes/datatypes'
 
 export default function LessonForm(props) {
 
-    const [lessonData, setLessonData] = useState({
-        lesson_name: '',
-        vowel: 'mixed',
-        lesson_letters: [],
-        is_exam: false,
-        shuffle_questions: false,
-    })
+    const [lessonData, setLessonData] = useState(new Lesson())
 
     useEffect(() => {
         if (props.lessonData) {
@@ -46,7 +39,7 @@ export default function LessonForm(props) {
                 </Form.Label>
                 <Col sm={10}>
                     <Form.Select
-                        onChange={(e) => setLessonData({ ...lessonData, vowel: e.target.value })}
+                        onChange={(e) => setLessonData({ ...lessonData, vowel: e.target.value as VOWEL })}
                         value={lessonData.vowel}>
                         <option value="mixed">מעורב</option>
                         <option value="a">קמץ, פתח</option>
@@ -66,7 +59,7 @@ export default function LessonForm(props) {
                     <Form.Control
                         type="text"
                         placeholder=""
-                        onChange={(e) => setLessonData({ ...lessonData, lesson_letters: e.target.value })}
+                        onChange={(e) => setLessonData({ ...lessonData, lesson_letters: [e.target.value] })}
                         value={lessonData.lesson_letters} />
                 </Col>
             </Form.Group>

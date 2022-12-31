@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Container } from "react-bootstrap"
-import LessonForm from "./LessonForm"
+import LessonForm from "./LessonForm.tsx"
 
 export default function EditLesson(props) {
 

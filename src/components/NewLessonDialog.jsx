@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import '../styles/MainPage.css'
-import LessonForm from './LessonForm';
+import LessonForm from './LessonForm.tsx';
 
 
 

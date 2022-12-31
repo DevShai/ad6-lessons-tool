@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "baseUrl": ".", // This must be specified if "paths" is.
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+    }
+}
