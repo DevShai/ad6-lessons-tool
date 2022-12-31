@@ -13,7 +13,7 @@ export default function LessonCard(props) {
     <Card style={{ width: '18rem' }}>
       <Card.Body style={cardStyle}>
         <Card.Title>{props.lesson_name}</Card.Title>
-        <Button>עריכה</Button>
+        <Button onClick={props.editLesson}>עריכה</Button>
         <Button>ייצוא</Button>
         <Button variant='danger' onClick={props.deleteLesson}>מחיקה</Button>
       </Card.Body>

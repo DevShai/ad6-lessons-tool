@@ -6,3 +6,9 @@
 .modal-header .btn-close {
     margin: 0 !important;
 }
+
+.lessons-list {
+    display: flex;
+    justify-content: center;
+    min-height: 5rem;
+}

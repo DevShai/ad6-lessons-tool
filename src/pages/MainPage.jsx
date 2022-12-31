@@ -2,21 +2,25 @@ import LessonsList from '../components/LessonsList';
 import NewLessonDialog from '../components/NewLessonDialog';
 import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-
+import EditLesson from '../components/EditLesson';
+import '../styles/MainPage.css'
 
 export default function MainPage() {
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [lessonsList, setLessonsList] = useState([])
+    const [lessonsList, setLessonsList] = useState()
+    const [editedLessonIdx, setEditedLessonIdx] = useState(-1)
 
     const retrieveLessons = function () {
         try {
             var list = JSON.parse(localStorage.getItem("lessons"))
             if (list != null) {
                 return list
+            } else {
+                return []
             }
 
-        } finally {
+        } catch (_e) {
             return []
         }
     }
@@ -37,31 +41,52 @@ export default function MainPage() {
         setLessonsList(newList)
     }
 
+    const updateLesson = function(idx, newData) {
+        var newList = [...lessonsList]
+        newList[idx] = newData
+        setLessonsList(newList)
+    }
+
     useEffect(() => {
-        if (lessonsList.length != 0) {
+        if (lessonsList != undefined) {
             saveLessons(lessonsList)
         }
+
     }, [lessonsList])
 
     useEffect(() => {
         setLessonsList(retrieveLessons())
     }, [])
 
+    const getLessonEditor = function () {
+        if (editedLessonIdx < 0) {
+            return ""
+        } else {
+            return <EditLesson
+                lessonData={lessonsList[editedLessonIdx]}
+                lessonIdx={editedLessonIdx}
+                updateLesson={updateLesson} />
+        }
+    }
+
     return (
         <div className="MainPage">
             <h1>Ad6 Admin Tool</h1>
-
-            <LessonsList
-                lessons={lessonsList}
-                deleteLesson={deleteLesson} />
-
-            <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
-
             <NewLessonDialog
                 visible={modalVisible}
                 onHide={() => setModalVisible(false)}
                 saveLesson={addNewLesson}
                 deleteLesson={deleteLesson} />
+
+            <LessonsList
+                lessons={lessonsList}
+                deleteLesson={deleteLesson}
+                editLesson={setEditedLessonIdx} />
+
+            <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
+
+            <br /><hr /><br />
+            {getLessonEditor()}
 
         </div>
     );

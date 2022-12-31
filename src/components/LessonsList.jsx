@@ -9,7 +9,6 @@ export default function LessonsList(props) {
     useEffect(() => {
         if (props.lessons) {
             setLessons(props.lessons)
-            console.log(props.lessons)
         }
     }, [props.lessons])
 
@@ -19,7 +18,9 @@ export default function LessonsList(props) {
                 <LessonCard
                     lesson_name={value.lesson_name}
                     key={idx}
-                    deleteLesson={() => props.deleteLesson(idx)} />
+                    deleteLesson={() => props.deleteLesson(idx)}
+                    editLesson={() => props.editLesson(idx)}
+                />
             )}
         </Container>
     )
