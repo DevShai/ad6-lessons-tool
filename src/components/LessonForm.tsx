@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import '../styles/MainPage.css'
-import { Lesson, VOWEL } from '../datatypes/datatypes'
+import { CreateQuestion, Lesson, QUESTION_TYPES, VOWEL } from '../datatypes/datatypes'
 import QuestionsNav from './QuestionsNav';
 
 export default function LessonForm(props) {
@@ -16,6 +16,13 @@ export default function LessonForm(props) {
 
     const onSubmit = function () {
         props.onSubmit(lessonData)
+    }
+
+    const addNewQuestion = function (type: QUESTION_TYPES) {
+        var newData = {...lessonData}
+        var newQuestion = CreateQuestion(type)
+        newData.questions.push(newQuestion)
+        setLessonData(newData)
     }
 
     return (
@@ -98,7 +105,9 @@ export default function LessonForm(props) {
                     שאלות
                 </Form.Label>
                 <Col sm={10} className="switch-container">
-                   <QuestionsNav elements={lessonData.questions}/>
+                    <QuestionsNav
+                        elements={lessonData.questions}
+                        addNewQuestion={addNewQuestion} />
                 </Col>
             </Form.Group>
 

@@ -1,3 +1,6 @@
+import React from "react";
+import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
+
 export enum VOWEL {
     MIXED = "מעורב",
     A = "קמץ, פתח",
@@ -7,7 +10,7 @@ export enum VOWEL {
     U = "סגול, צירה"
 }
 
-enum QUESTION_TYPES {
+export enum QUESTION_TYPES {
     READ_VOWEL,
     TEXT_WITH_QUIZ,
     MALE_FEMALE,
@@ -72,7 +75,7 @@ export class Lesson {
     lesson_letters: Array<string>
     is_exam: boolean
     shuffle_questions: boolean
-    questions: Array<Question>
+    questions: Array<Question> = []
 
     /* constructor(name: string = "", vowel: VOWEL = VOWEL.MIXED, letters: Array<string> = [], is_exam: boolean, shuffle: boolean) {
         this.lesson_name = name
@@ -85,6 +88,7 @@ export class Lesson {
 
 export class Question {
     type: QUESTION_TYPES
+    form: any
 }
 
 export class MultipleSelectionQuestion {
@@ -105,6 +109,7 @@ export class QuestionDataReadText extends Question {
     constructor() {
         super()
         this.type = QUESTION_TYPES.TEXT_WITH_QUIZ
+        this.form = <QuestionFormTextWithQuiz questionData={this}/>
     }
 }
 

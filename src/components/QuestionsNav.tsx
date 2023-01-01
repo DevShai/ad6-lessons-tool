@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, DropdownButton, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
+import { CreateQuestion, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
 import 'src/styles/MainPage.css'
 
 const styles = {
@@ -27,10 +27,14 @@ export default function QuestionsNav(props) {
         }
     }, [props.elements])
 
-    const addElement = function (data: any) {
-        var newList = [...elements]
-        newList.push(data)
-        setElements(newList)
+    const GetForm = function() {
+        var form = <div/>
+        if (activeElementIdx != - 1) {
+            var currentQuestion = elements[activeElementIdx]
+            form = currentQuestion.form
+        }
+        
+        return form
     }
 
     return (
@@ -41,10 +45,11 @@ export default function QuestionsNav(props) {
                         {elements.map((_val: any, idx: number) => (
                             <ToggleButton
                                 id={idx as unknown as string}
+                                key={idx}
                                 value={idx}
                                 checked={idx == activeElementIdx}
                                 onClick={() => setActiveElementIdx(idx)}>
-                                {idx}
+                                {idx + 1}
                             </ToggleButton>
                         ))}
                     </ToggleButtonGroup>
@@ -52,7 +57,9 @@ export default function QuestionsNav(props) {
                 <Col style={styles.col}>
                     <DropdownButton variant="success" title="הוספה" align="end">
                         {Object.keys(QUESTION_TYPES_INFO).map((val: any, idx: number) => (
-                            <DropdownItem key={idx}>
+                            <DropdownItem
+                                key={idx}
+                                onClick={() => props.addNewQuestion(QUESTION_TYPES_INFO[val])}>
                                 {val}
                             </DropdownItem>
                         ))}
@@ -60,7 +67,7 @@ export default function QuestionsNav(props) {
                 </Col>
             </Row>
             <Row>
-                {elements[activeElementIdx]}
+                {GetForm()}
             </Row>
         </div>
     );

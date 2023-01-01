@@ -84,7 +84,7 @@ export default function MainPage() {
                 editLesson={setEditedLessonIdx} />
 
             <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
-
+            
             <br /><hr /><br />
             {getLessonEditor()}
 
