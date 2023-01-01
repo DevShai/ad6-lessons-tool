@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button, InputGroup, Container } from 'react-bootstrap';
 import { QuestionDataReadText } from 'src/datatypes/datatypes';
 import 'src/styles/MainPage.css'
 
@@ -13,12 +13,8 @@ export default function QuestionFormTextWithQuiz(props) {
         }
     }, [props.questionData])
 
-    const onSubmit = function () {
-        props.onSubmit(questionData)
-    }
-
     return (
-        <Form onSubmit={onSubmit}>
+        <Container fluid>
 
             <InputGroup>
                 <InputGroup.Text>כותרת הטקסט</InputGroup.Text>
@@ -33,6 +29,6 @@ export default function QuestionFormTextWithQuiz(props) {
             <center>
                 <Button type='submit'>שמירה</Button>
             </center>
-        </Form>
+        </Container>
     );
 }
