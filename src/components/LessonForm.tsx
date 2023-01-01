@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import '../styles/MainPage.css'
 import { Lesson, VOWEL } from '../datatypes/datatypes'
+import QuestionsNav from './QuestionsNav';
 
 export default function LessonForm(props) {
 
@@ -91,6 +92,16 @@ export default function LessonForm(props) {
                     />
                 </Col>
             </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                    שאלות
+                </Form.Label>
+                <Col sm={10} className="switch-container">
+                   <QuestionsNav elements={lessonData.questions}/>
+                </Col>
+            </Form.Group>
+
             <center>
                 <Button type='submit'>שמירה</Button>
             </center>
