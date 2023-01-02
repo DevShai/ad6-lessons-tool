@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionFormMaleFemale from "src/components/QuestionsForms/MaleFemale";
 import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
 
 export enum VOWEL {
@@ -55,7 +56,7 @@ export function GetForm(question: Question, idx: number, updateFunc= null) {
         case QUESTION_TYPES.TEXT_WITH_QUIZ:
            return <QuestionFormTextWithQuiz questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.MALE_FEMALE:
-            return <div/>
+            return <QuestionFormMaleFemale questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.LINE_DRAW:
             return <div/>
         case QUESTION_TYPES.SYLLABLES:
@@ -79,9 +80,9 @@ interface WordData {
     texture: any
 }
 
-interface WordGenderData {
-    male: WordData,
-    female: WordData
+export interface WordGenderData {
+    male: string,
+    female: string
 }
 
 export class Lesson {
@@ -147,7 +148,7 @@ export class QuestionDataDrawLine extends Question {
 }
 
 export class QuestionDataMaleFemale extends Question {
-    word_pairs: Array<WordGenderData>
+    word_pairs: Array<WordGenderData> = []
 
     constructor() {
         super()

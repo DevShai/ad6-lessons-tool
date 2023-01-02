@@ -12,7 +12,7 @@ export default function QuestionFormTextWithQuiz(props) {
         if (props.questionData) {
             setQuestionData(props.questionData)
         }
-    }, [])
+    }, [props.idx])
 
     useEffect(() => {
         if (props.updateFunc) {
