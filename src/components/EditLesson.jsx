@@ -20,7 +20,8 @@ export default function EditLesson(props) {
         <Container fluid>
             <LessonForm
                 lessonData={lessonData} 
-                onSubmit={onSubmit}/>
+                onSubmit={onSubmit}
+                showQuestions={true}/>
         </Container>
     )
 }

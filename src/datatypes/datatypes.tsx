@@ -103,7 +103,6 @@ export class Lesson {
 
 export class Question {
     type: QUESTION_TYPES
-    form: any
 }
 
 export class MultipleSelectionQuestion {
@@ -124,7 +123,6 @@ export class QuestionDataReadText extends Question {
     constructor() {
         super()
         this.type = QUESTION_TYPES.TEXT_WITH_QUIZ
-        this.form = <QuestionFormTextWithQuiz questionData={this}/>
     }
 }
 

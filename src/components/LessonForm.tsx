@@ -19,13 +19,13 @@ export default function LessonForm(props) {
     }
 
     const addNewQuestion = function (type: QUESTION_TYPES) {
-        var newData = {...lessonData}
+        var newData = { ...lessonData }
         var newQuestion = CreateQuestion(type)
         newData.questions.push(newQuestion)
         setLessonData(newData)
     }
-    const updateQuestion = function(idx: number, data: Question) {
-        var newData = {...lessonData}
+    const updateQuestion = function (idx: number, data: Question) {
+        var newData = { ...lessonData }
         newData.questions[idx] = data
         setLessonData(newData)
     }
@@ -104,18 +104,19 @@ export default function LessonForm(props) {
                     />
                 </Col>
             </Form.Group>
-
-            <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>
-                    תרגילים
-                </Form.Label>
-                <Col sm={10} className="switch-container">
-                    <QuestionsNav
-                        elements={lessonData.questions}
-                        addNewQuestion={addNewQuestion}
-                        updateQuestion={updateQuestion} />
-                </Col>
-            </Form.Group>
+            {props.showQuestions ?
+                <Form.Group as={Row} className="mb-3">
+                    <Form.Label column sm={2}>
+                        תרגילים
+                    </Form.Label>
+                    <Col sm={10} className="switch-container">
+                        <QuestionsNav
+                            elements={lessonData.questions}
+                            addNewQuestion={addNewQuestion}
+                            updateQuestion={updateQuestion} />
+                    </Col>
+                </Form.Group>
+                : ""}
 
             <center>
                 <Button type='submit'>שמירה</Button>

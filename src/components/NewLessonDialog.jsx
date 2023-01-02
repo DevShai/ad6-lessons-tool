@@ -26,7 +26,8 @@ export default function NewLessonDialog(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <LessonForm
-                        onSubmit={onSubmit} />
+                        onSubmit={onSubmit}
+                        showQuestions={false} />
                 </Modal.Body>
             </Modal>
         </>
