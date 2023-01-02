@@ -12,7 +12,11 @@ export default function MultipleSelectionQuestionForm(props) {
         if (props.data) {
             setData(props.data)
         }
-    }, [props.data])
+    }, [])
+
+    useEffect(() => {
+        props.updateQuizQuestion(props.idx, data)
+    }, [data])
 
 
 

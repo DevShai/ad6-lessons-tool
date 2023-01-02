@@ -48,12 +48,12 @@ export function CreateQuestion(type: QUESTION_TYPES): Question | null {
     return question
 }
 
-export function GetForm(question: Question, onSubmit = null) {
+export function GetForm(question: Question, idx: number, updateFunc= null) {
     switch (question.type) {
         case QUESTION_TYPES.READ_VOWEL:
             return <div/>
         case QUESTION_TYPES.TEXT_WITH_QUIZ:
-           return <QuestionFormTextWithQuiz questionData={question} onSubmit={onSubmit}/>
+           return <QuestionFormTextWithQuiz questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.MALE_FEMALE:
             return <div/>
         case QUESTION_TYPES.LINE_DRAW:

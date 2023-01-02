@@ -12,7 +12,15 @@ export default function QuestionFormTextWithQuiz(props) {
         if (props.questionData) {
             setQuestionData(props.questionData)
         }
-    }, [props.questionData])
+    }, [])
+
+    useEffect(() => {
+        if (props.updateFunc) {
+            props.updateFunc(props.idx, questionData)
+        }
+    }, [questionData])
+
+    
 
     const addQuizQuestion = function () {
         var newQuestionData = { ...questionData }

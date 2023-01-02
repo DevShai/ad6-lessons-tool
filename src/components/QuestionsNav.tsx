@@ -57,7 +57,7 @@ export default function QuestionsNav(props) {
                 </Col>
             </Row>
             <Row>
-                {(activeElementIdx !== -1) ? GetForm(elements[activeElementIdx]) : ""}
+                {(activeElementIdx !== -1) ? GetForm(elements[activeElementIdx], activeElementIdx, props.updateQuestion) : ""}
             </Row>
         </div>
     );

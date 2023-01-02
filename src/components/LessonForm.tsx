@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import '../styles/MainPage.css'
-import { CreateQuestion, Lesson, QUESTION_TYPES, VOWEL } from '../datatypes/datatypes'
+import { CreateQuestion, Lesson, Question, QUESTION_TYPES, VOWEL } from '../datatypes/datatypes'
 import QuestionsNav from './QuestionsNav';
 
 export default function LessonForm(props) {
@@ -22,6 +22,11 @@ export default function LessonForm(props) {
         var newData = {...lessonData}
         var newQuestion = CreateQuestion(type)
         newData.questions.push(newQuestion)
+        setLessonData(newData)
+    }
+    const updateQuestion = function(idx: number, data: Question) {
+        var newData = {...lessonData}
+        newData.questions[idx] = data
         setLessonData(newData)
     }
 
@@ -107,7 +112,8 @@ export default function LessonForm(props) {
                 <Col sm={10} className="switch-container">
                     <QuestionsNav
                         elements={lessonData.questions}
-                        addNewQuestion={addNewQuestion} />
+                        addNewQuestion={addNewQuestion}
+                        updateQuestion={updateQuestion} />
                 </Col>
             </Form.Group>
 
