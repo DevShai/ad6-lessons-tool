@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button, InputGroup, Container } from 'react-bootstrap';
-import { QuestionDataReadText } from 'src/datatypes/datatypes';
+import { Form, Row, Col, Container, Button } from 'react-bootstrap';
+import { MultipleSelectionQuestion, QuestionDataReadText } from 'src/datatypes/datatypes';
 import 'src/styles/MainPage.css'
+import MultipleSelectionQuestionForm from './MultipleSelectionQuestion';
 
 export default function QuestionFormTextWithQuiz(props) {
 
@@ -13,22 +14,58 @@ export default function QuestionFormTextWithQuiz(props) {
         }
     }, [props.questionData])
 
+    const addQuizQuestion = function () {
+        var newQuestionData = { ...questionData }
+        newQuestionData.quiz.push(new MultipleSelectionQuestion())
+        setQuestionData(newQuestionData)
+    }
+
+    const updateQuizQuestion = function (idx: number, newData: MultipleSelectionQuestion) {
+        var newQuestionData = { ...questionData }
+        newQuestionData.quiz[idx] = newData
+        setQuestionData(newQuestionData)
+    }
+
     return (
         <Container fluid>
 
-            <InputGroup>
-                <InputGroup.Text>כותרת הטקסט</InputGroup.Text>
-                <Form.Control type='text' />
-            </InputGroup>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                    כותרת הטקסט
+                </Form.Label>
+                <Col sm={10}>
+                    <Form.Control
+                        type='text'
+                        value={questionData.text_title.text}
+                        onChange={(e) => setQuestionData({ ...questionData, text_title: { text: e.target.value, audio: undefined } })} />
+                </Col>
+            </Form.Group>
 
-            <InputGroup>
-                <InputGroup.Text>טקסט</InputGroup.Text>
-                <Form.Control as="textarea" />
-            </InputGroup>
-
-            <center>
-                <Button type='submit'>שמירה</Button>
-            </center>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                    טקסט
+                </Form.Label>
+                <Col sm={10}>
+                    <Form.Control
+                        as='textarea'
+                        value={questionData.text.text}
+                        onChange={(e) => setQuestionData({ ...questionData, text: { text: e.target.value, audio: undefined } })} />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                    שאלות
+                </Form.Label>
+                <Col sm={10}>
+                    <Button onClick={() => addQuizQuestion()}>+</Button>
+                    {questionData.quiz.map((_val, idx) =>
+                        <MultipleSelectionQuestionForm
+                            key={idx}
+                            idx={idx}
+                            data={questionData.quiz[idx]}
+                            updateQuizQuestion={updateQuizQuestion} />)}
+                </Col>
+            </Form.Group>
         </Container>
     );
 }

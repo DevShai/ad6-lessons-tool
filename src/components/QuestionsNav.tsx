@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, DropdownButton, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { CreateQuestion, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
+import { CreateQuestion, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
 import 'src/styles/MainPage.css'
 
 const styles = {
@@ -26,16 +26,6 @@ export default function QuestionsNav(props) {
             setElements(props.elements)
         }
     }, [props.elements])
-
-    const GetForm = function() {
-        var form = <div/>
-        if (activeElementIdx != - 1) {
-            var currentQuestion = elements[activeElementIdx]
-            form = currentQuestion.form
-        }
-        
-        return form
-    }
 
     return (
         <div style={styles.row}>
@@ -67,7 +57,7 @@ export default function QuestionsNav(props) {
                 </Col>
             </Row>
             <Row>
-                {GetForm()}
+                {(activeElementIdx !== -1) ? GetForm(elements[activeElementIdx]) : ""}
             </Row>
         </div>
     );

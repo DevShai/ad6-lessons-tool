@@ -88,7 +88,7 @@ export default function LessonForm(props) {
 
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                    ערבוב שאלות
+                    תרגילים בסדר רנדומלי
                 </Form.Label>
                 <Col sm={10} className="switch-container">
                     <Form.Check
@@ -102,7 +102,7 @@ export default function LessonForm(props) {
 
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
-                    שאלות
+                    תרגילים
                 </Form.Label>
                 <Col sm={10} className="switch-container">
                     <QuestionsNav

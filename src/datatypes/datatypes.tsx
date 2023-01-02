@@ -48,13 +48,28 @@ export function CreateQuestion(type: QUESTION_TYPES): Question | null {
     return question
 }
 
+export function GetForm(question: Question, onSubmit = null) {
+    switch (question.type) {
+        case QUESTION_TYPES.READ_VOWEL:
+            return <div/>
+        case QUESTION_TYPES.TEXT_WITH_QUIZ:
+           return <QuestionFormTextWithQuiz questionData={question} onSubmit={onSubmit}/>
+        case QUESTION_TYPES.MALE_FEMALE:
+            return <div/>
+        case QUESTION_TYPES.LINE_DRAW:
+            return <div/>
+        case QUESTION_TYPES.SYLLABLES:
+            return <div/>
+    }
+}
+
 interface TextWithVoice {
     text: string
     audio: Array<any>
 }
 
 interface Answer {
-    text: TextWithVoice
+    text: string
     texture: any
 }
 
@@ -92,19 +107,19 @@ export class Question {
 }
 
 export class MultipleSelectionQuestion {
-    question: TextWithVoice
-    correct_answer: Answer
-    incorrect_answers: Array<Answer>
+    question: TextWithVoice = {text: '', audio: undefined}
+    correct_answer: Answer = {text: '', texture: undefined}
+    incorrect_answers: Array<Answer> = [{text: '', texture: undefined}, {text: '', texture: undefined}, {text: '', texture: undefined}]
     shuffle: boolean = true
     use_textures: boolean = false
     use_text: boolean = true
 }
 
 export class QuestionDataReadText extends Question {
-    text_title: TextWithVoice
-    text: TextWithVoice
-    definitions: Array<WordData>
-    quiz: Array<MultipleSelectionQuestion>
+    text_title: TextWithVoice = {text: "", audio: undefined}
+    text: TextWithVoice = {text: "", audio: undefined}
+    definitions: Array<WordData> = []
+    quiz: Array<MultipleSelectionQuestion> = []
 
     constructor() {
         super()

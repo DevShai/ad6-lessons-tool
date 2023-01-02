@@ -26,7 +26,17 @@ export default function MainPage() {
     }
 
     const saveLessons = function (lessons) {
-        localStorage.setItem("lessons", JSON.stringify(lessons))
+        var seen = [];
+        localStorage.setItem("lessons",
+            JSON.stringify(lessons, function (key, val) {
+                if (val != null && typeof val == "object") {
+                    if (seen.indexOf(val) >= 0) {
+                        return;
+                    }
+                    seen.push(val);
+                }
+                return val;
+            }))
     }
 
     const addNewLesson = function (lessonData) {
@@ -41,7 +51,7 @@ export default function MainPage() {
         setLessonsList(newList)
     }
 
-    const updateLesson = function(idx, newData) {
+    const updateLesson = function (idx, newData) {
         var newList = [...lessonsList]
         newList[idx] = newData
         setLessonsList(newList)
@@ -71,7 +81,7 @@ export default function MainPage() {
 
     return (
         <div className="MainPage">
-            <h1>Ad6 Admin Tool</h1>
+            <h1>כלי ניהול שיעורים</h1>
             <NewLessonDialog
                 visible={modalVisible}
                 onHide={() => setModalVisible(false)}
@@ -84,7 +94,7 @@ export default function MainPage() {
                 editLesson={setEditedLessonIdx} />
 
             <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
-            
+
             <br /><hr /><br />
             {getLessonEditor()}
 
