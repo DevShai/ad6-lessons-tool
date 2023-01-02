@@ -14,7 +14,7 @@ export default function LessonCard(props) {
       <Card.Body style={cardStyle}>
         <Card.Title>{props.lesson_name}</Card.Title>
         <Button onClick={props.editLesson}>עריכה</Button>
-        <Button>ייצוא</Button>
+        <Button onClick={props.exportLesson}>ייצוא</Button>
         <Button variant='danger' onClick={props.deleteLesson}>מחיקה</Button>
       </Card.Body>
     </Card>

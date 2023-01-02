@@ -57,6 +57,20 @@ export default function MainPage() {
         setLessonsList(newList)
     }
 
+    const download = function (content, fileName, contentType) {
+        const a = document.createElement("a");
+        const file = new Blob([content], { type: contentType });
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+    }
+
+    const exportLesson = function (idx) {
+        var data = lessonsList[idx]
+        download(JSON.stringify(data, undefined, '\t'), data.lesson_name + ".json", "text/plain");
+    }
+
+
     useEffect(() => {
         if (lessonsList != undefined) {
             saveLessons(lessonsList)
@@ -91,7 +105,8 @@ export default function MainPage() {
             <LessonsList
                 lessons={lessonsList}
                 deleteLesson={deleteLesson}
-                editLesson={setEditedLessonIdx} />
+                editLesson={setEditedLessonIdx}
+                exportLesson={exportLesson} />
 
             <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
 

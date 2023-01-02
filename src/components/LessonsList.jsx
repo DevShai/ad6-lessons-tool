@@ -20,6 +20,7 @@ export default function LessonsList(props) {
                     key={idx}
                     deleteLesson={() => props.deleteLesson(idx)}
                     editLesson={() => props.editLesson(idx)}
+                    exportLesson={() => props.exportLesson(idx)}
                 />
             )}
         </Container>
