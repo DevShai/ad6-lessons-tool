@@ -1,1 +1,1 @@
-Ad6 Admin Tool
+Ad6 Lessons Tool
