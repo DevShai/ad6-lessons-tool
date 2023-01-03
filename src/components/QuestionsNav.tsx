@@ -26,7 +26,7 @@ export default function QuestionsNav(props) {
                 {elements.map((val, idx) =>
                     <ListGroup.Item action href={"#" + idx} key={idx}>
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <CloseButton />
+                            <CloseButton onClick={() => props.deleteQuestion(idx)} />
                             <span style={{ flexGrow: "1" }}>
                                 {(idx + 1) + ". " + getDisplayName(val.type)}
                             </span>

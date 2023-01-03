@@ -24,9 +24,16 @@ export default function LessonForm(props) {
         newData.questions.push(newQuestion)
         setLessonData(newData)
     }
+
     const updateQuestion = function (idx: number, data: Question) {
         var newData = { ...lessonData }
         newData.questions[idx] = data
+        setLessonData(newData)
+    }
+
+    const deleteQuestion = function (idx: number) {
+        var newData = { ...lessonData }
+        newData.questions.splice(idx, 1)
         setLessonData(newData)
     }
 
@@ -116,7 +123,8 @@ export default function LessonForm(props) {
                                 <QuestionsNav
                                     elements={lessonData.questions}
                                     addNewQuestion={addNewQuestion}
-                                    updateQuestion={updateQuestion} />
+                                    updateQuestion={updateQuestion}
+                                    deleteQuestion={deleteQuestion} />
                             </Col>
                         </Row>
                     </Row>
