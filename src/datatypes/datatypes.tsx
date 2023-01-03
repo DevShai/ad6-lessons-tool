@@ -1,6 +1,7 @@
 import React from "react";
 import QuestionFormMaleFemale from "src/components/QuestionsForms/MaleFemale";
 import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
+import QuestionFormVowelIntro from "src/components/QuestionsForms/VowelIntro";
 
 export enum VOWEL {
     MIXED = "מעורב",
@@ -52,7 +53,7 @@ export function CreateQuestion(type: QUESTION_TYPES): Question | null {
 export function GetForm(question: Question, idx: number, updateFunc= null) {
     switch (question.type) {
         case QUESTION_TYPES.READ_VOWEL:
-            return <div/>
+            return <QuestionFormVowelIntro questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.TEXT_WITH_QUIZ:
            return <QuestionFormTextWithQuiz questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.MALE_FEMALE:
@@ -138,8 +139,8 @@ export class QuestionDataReadText extends Question {
 }
 
 export class QuestionDataReadVowel extends Question {
-    letter: string
-    vowel: VOWEL
+    letter: string = ""
+    vowel: VOWEL = VOWEL.A
     alt_form: boolean = false
 
     constructor() {

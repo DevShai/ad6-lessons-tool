@@ -71,7 +71,7 @@ export default function LessonForm(props) {
                 </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3">
+            {/*             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
                     אותיות
                 </Form.Label>
@@ -82,7 +82,7 @@ export default function LessonForm(props) {
                         onChange={(e) => setLessonData({ ...lessonData, lesson_letters: [e.target.value] })}
                         value={lessonData.lesson_letters} />
                 </Col>
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
@@ -111,12 +111,12 @@ export default function LessonForm(props) {
                     />
                 </Col>
             </Form.Group>
-            <br/>
+            <br />
             {props.showQuestions ?
                 <Container fluid>
                     <Row className="mb-3">
                         <Form.Label column sm={2}>
-                            
+
                         </Form.Label>
                         <Row>
                             <Col>
