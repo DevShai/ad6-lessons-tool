@@ -71,19 +71,6 @@ export default function LessonForm(props) {
                 </Col>
             </Form.Group>
 
-            {/*             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>
-                    אותיות
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Control
-                        type="text"
-                        placeholder=""
-                        onChange={(e) => setLessonData({ ...lessonData, lesson_letters: [e.target.value] })}
-                        value={lessonData.lesson_letters} />
-                </Col>
-            </Form.Group> */}
-
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
                     מבחן

@@ -46,8 +46,8 @@ export default function QuestionFormVowelIntro(props) {
                 <Col sm={2}>
                     <Form.Check
                         type="checkbox"
-                        label="אות רפויה \ סין" disabled={!(["פ", "ב", "כ"].includes(questionData.letter))}
-                        checked={questionData.alt_form && ["פ", "ב", "כ"].includes(questionData.letter)}
+                        label="אות רפויה \ סין" disabled={!(["פ", "ב", "כ", "ש"].includes(questionData.letter))}
+                        checked={questionData.alt_form && ["פ", "ב", "כ", "ש"].includes(questionData.letter)}
                         onChange={(e) => setQuestionData({ ...questionData, alt_form: e.target.checked })} />
                 </Col>
             </Form.Group>
