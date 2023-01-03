@@ -102,8 +102,18 @@ export class Lesson {
     } */
 }
 
+export function getDisplayName(type: QUESTION_TYPES): string {
+    var displayName = ""
+    Object.keys(QUESTION_TYPES_INFO).forEach(element => {
+        if (QUESTION_TYPES_INFO[element] === type) {
+            displayName = element
+        }
+    });
+    return displayName
+}
+
 export class Question {
-    type: QUESTION_TYPES
+    type: QUESTION_TYPES = undefined
 }
 
 export class MultipleSelectionQuestion {

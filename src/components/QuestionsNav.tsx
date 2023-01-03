@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, DropdownButton, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { CloseButton, Col, Container, DropdownButton, ListGroup, Row, Tab, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { CreateQuestion, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
+import { CreateQuestion, getDisplayName, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
 import 'src/styles/MainPage.css'
 
 const styles = {
-    row: {
-        width: "70%"
-    },
-    col: {
-        flexGrow: 0
-    },
-    content: {
-        height: "100%"
+    tabs: {
+        width: "100%"
     }
 }
 
 export default function QuestionsNav(props) {
 
     const [elements, setElements] = useState([])
-    const [activeElementIdx, setActiveElementIdx] = useState(-1)
 
     useEffect(() => {
         if (props.elements) {
@@ -27,24 +20,43 @@ export default function QuestionsNav(props) {
         }
     }, [props.elements])
 
+    const getTabs = function () {
+        return (
+            <ListGroup style={{ width: "100%"}}>
+                {elements.map((val, idx) =>
+                    <ListGroup.Item action href={"#" + idx} key={idx}>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <CloseButton />
+                            <span style={{ flexGrow: "1" }}>
+                                {(idx + 1) + ". " + getDisplayName(val.type)}
+                            </span>
+                        </div>
+                    </ListGroup.Item>
+                )}
+            </ListGroup>
+        )
+    }
+
+    const getContent = function () {
+        return (<Tab.Content style={{ width: "100%", height: "100%" }}>
+            {elements.map((val, idx) =>
+                <Tab.Pane key={idx} eventKey={"#" + idx}>
+                    {GetForm(val, idx, props.updateQuestion)}
+                </Tab.Pane>
+            )}
+        </Tab.Content>
+        )
+    }
+
     return (
-        <div style={styles.row}>
-            <Row style={styles.row}>
-                <Col style={styles.col}>
-                    <ToggleButtonGroup type='radio' name='elements'>
-                        {elements.map((_val: any, idx: number) => (
-                            <ToggleButton
-                                id={idx as unknown as string}
-                                key={idx}
-                                value={idx}
-                                checked={idx == activeElementIdx}
-                                onClick={() => setActiveElementIdx(idx)}>
-                                {idx + 1}
-                            </ToggleButton>
-                        ))}
-                    </ToggleButtonGroup>
+        <Container fluid >
+            <Row>
+                <Col sm={3}>
+                    <h4 style={{ textDecoration: 'underline' }}>
+                        תרגילים
+                    </h4>
                 </Col>
-                <Col style={styles.col}>
+                <Col sm={1}>
                     <DropdownButton variant="success" title="הוספה" align="end">
                         {Object.keys(QUESTION_TYPES_INFO).map((val: any, idx: number) => (
                             <DropdownItem
@@ -56,9 +68,17 @@ export default function QuestionsNav(props) {
                     </DropdownButton>
                 </Col>
             </Row>
-            <Row>
-                {(activeElementIdx !== -1) ? GetForm(elements[activeElementIdx], activeElementIdx, props.updateQuestion) : ""}
-            </Row>
-        </div>
-    );
+            <br />
+            <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+                <Row>
+                    <Col sm={3}>
+                        {getTabs()}
+                    </Col>
+                    <Col sm={8}>
+                        {getContent()}
+                    </Col>
+                </Row>
+            </Tab.Container>
+        </Container>
+    )
 }

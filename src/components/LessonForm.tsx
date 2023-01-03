@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Container } from 'react-bootstrap';
 import '../styles/MainPage.css'
 import { CreateQuestion, Lesson, Question, QUESTION_TYPES, VOWEL } from '../datatypes/datatypes'
 import QuestionsNav from './QuestionsNav';
@@ -104,18 +104,23 @@ export default function LessonForm(props) {
                     />
                 </Col>
             </Form.Group>
+            <br/>
             {props.showQuestions ?
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm={2}>
-                        תרגילים
-                    </Form.Label>
-                    <Col sm={10} className="switch-container">
-                        <QuestionsNav
-                            elements={lessonData.questions}
-                            addNewQuestion={addNewQuestion}
-                            updateQuestion={updateQuestion} />
-                    </Col>
-                </Form.Group>
+                <Container fluid>
+                    <Row className="mb-3">
+                        <Form.Label column sm={2}>
+                            
+                        </Form.Label>
+                        <Row>
+                            <Col>
+                                <QuestionsNav
+                                    elements={lessonData.questions}
+                                    addNewQuestion={addNewQuestion}
+                                    updateQuestion={updateQuestion} />
+                            </Col>
+                        </Row>
+                    </Row>
+                </Container>
                 : ""}
 
             <center>
