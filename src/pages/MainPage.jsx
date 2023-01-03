@@ -37,7 +37,6 @@ export default function MainPage() {
                 }
                 return val;
             }))
-        alert("השיעור נשמר")
     }
 
     const addNewLesson = function (lessonData) {
