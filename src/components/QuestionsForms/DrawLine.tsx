@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form, Row, Col, Image } from "react-bootstrap";
-import { FileData, QuestionDataDrawLine } from "src/datatypes/datatypes";
+import { Button, Container, Form, Row, Col, Image, CloseButton } from "react-bootstrap";
+import { FileData, getBase64, getImgPreview, QuestionDataDrawLine } from "src/datatypes/datatypes";
 
 export default function QuestionFormDrawLine(props) {
 
@@ -9,12 +9,6 @@ export default function QuestionFormDrawLine(props) {
     useEffect(() => {
         if (props.questionData) {
             setQuestionData(props.questionData)
-            /* for (let i = 0; i < props.questionData.words.length; i++) {
-                var base64string = props.questionData.words[i].texture.base64
-                if (typeof(base64string) == "string") {
-                    addNewWord(props.questionData.words[i].word.text, getFile(base64string, i))
-                }
-            } */
         }
     }, [props.idx])
 
@@ -24,36 +18,7 @@ export default function QuestionFormDrawLine(props) {
         }
     }, [questionData])
 
-    const getBase64 = function (file: File): Promise<string> {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = error => reject(error);
-        });
-    }
 
-    const getFile = function (base64Data: string, idx: number, contentType = "", sliceSize = 512) {
-        var byteCharacters = window.atob(base64Data);
-        var byteArrays = [];
-
-        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            var byteNumbers = new Array(slice.length);
-            for (var i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            var byteArray = new Uint8Array(byteNumbers);
-
-            byteArrays.push(byteArray);
-        }
-
-        console.log(byteArrays);
-
-        return new File(byteArrays, "img-" + idx, { type: contentType });
-    }
 
     const addNewWord = function (word: string = '', img: FileData = undefined) {
         var newData = { ...questionData }
@@ -61,6 +26,12 @@ export default function QuestionFormDrawLine(props) {
         setQuestionData(newData)
     }
 
+    const deleteWord = function(idx) {
+        var newData = { ...questionData }
+        newData.words.splice(idx, 1)
+        setQuestionData(newData)
+    }
+    
     const updateWord = async function (idx: number, word: string, img: FileData) {
         var newData = { ...questionData }
         if (img != undefined) {
@@ -74,19 +45,13 @@ export default function QuestionFormDrawLine(props) {
         setQuestionData(newData)
     }
 
-    const getImgPreview = function (idx: number) {
-        try {
-            var fileObject = getFile(questionData.words[idx].texture.base64, idx)
-            var img = URL.createObjectURL(fileObject)
-            return img
-        } catch (e) {
-            return ''
-        }
-    }
 
     const getRow = function (idx: number) {
         return (
             <Row key={idx}>
+                <Col sm={1}>
+                    <CloseButton onClick={(e) => deleteWord(idx)}/>
+                </Col>
                 <Col>
                     <Form.Control
                         required
@@ -107,7 +72,7 @@ export default function QuestionFormDrawLine(props) {
                 </Col>
                 <Col>
                     <Image
-                        src={getImgPreview(idx)}
+                        src={getImgPreview(questionData.words[idx].texture.base64, "img-" + idx)}
                         rounded
                         fluid
                         style={{maxHeight: "100px"}} />

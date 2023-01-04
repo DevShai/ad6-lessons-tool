@@ -183,3 +183,43 @@ export class QuestionDataSyllable extends Question {
     }
 }
 
+export const getBase64 = function (file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+    });
+}
+
+const getFile = function (base64Data: string, filename: string = '', contentType = "", sliceSize = 512) {
+    var byteCharacters = window.atob(base64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    console.log(byteArrays);
+
+    return new File(byteArrays, filename, { type: contentType });
+}
+
+export const getImgPreview = function (base64: string, filename: string = '') {
+    try {
+        var fileObject = getFile(base64, filename)
+        var img = URL.createObjectURL(fileObject)
+        return img
+    } catch (e) {
+        return ''
+    }
+}
