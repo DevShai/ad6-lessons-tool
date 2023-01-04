@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionFormDrawLine from "src/components/QuestionsForms/DrawLine";
 import QuestionFormMaleFemale from "src/components/QuestionsForms/MaleFemale";
 import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
 import QuestionFormVowelIntro from "src/components/QuestionsForms/VowelIntro";
@@ -59,7 +60,7 @@ export function GetForm(question: Question, idx: number, updateFunc= null) {
         case QUESTION_TYPES.MALE_FEMALE:
             return <QuestionFormMaleFemale questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.LINE_DRAW:
-            return <div/>
+            return <QuestionFormDrawLine questionData={question} updateFunc={updateFunc} idx={idx}/>
         case QUESTION_TYPES.SYLLABLES:
             return <div/>
     }
@@ -150,7 +151,7 @@ export class QuestionDataReadVowel extends Question {
 }
 
 export class QuestionDataDrawLine extends Question {
-    words: Array<WordData>
+    words: Array<WordData> = []
 
     constructor() {
         super()
