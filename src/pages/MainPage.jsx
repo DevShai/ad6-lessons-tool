@@ -57,7 +57,7 @@ export default function MainPage() {
         var newList = [...lessonsList]
         newList.splice(idx, 1)
         setLessonsList(newList)
-        saveLessons(newList, true)
+        saveLessons(newList, false)
     }
 
     const updateLesson = function (idx, newData) {

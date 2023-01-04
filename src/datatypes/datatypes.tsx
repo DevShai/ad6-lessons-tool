@@ -76,10 +76,15 @@ interface Answer {
     texture: any
 }
 
+export interface FileData {
+    fileObject: File
+    base64: string
+}
+
 interface WordData {
     word: TextWithVoice
     definition: TextWithVoice
-    texture: any
+    texture: FileData
 }
 
 export interface WordGenderData {
