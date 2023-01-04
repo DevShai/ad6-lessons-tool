@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Row, Col, Image, CloseButton } from "react-bootstrap";
-import { FileData, getBase64, getImgPreview, QuestionDataDrawLine } from "src/datatypes/datatypes";
+import { FileData, getBase64, getMediaPreview, QuestionDataDrawLine } from "src/datatypes/datatypes";
 
 export default function QuestionFormDrawLine(props) {
 
@@ -72,7 +72,7 @@ export default function QuestionFormDrawLine(props) {
                 </Col>
                 <Col>
                     <Image
-                        src={getImgPreview(questionData.words[idx].texture.base64, "img-" + idx)}
+                        src={getMediaPreview(questionData.words[idx].texture.base64, "img-" + idx)}
                         rounded
                         fluid
                         style={{maxHeight: "100px"}} />

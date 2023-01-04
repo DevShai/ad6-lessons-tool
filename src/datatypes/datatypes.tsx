@@ -1,6 +1,7 @@
 import React from "react";
 import QuestionFormDrawLine from "src/components/QuestionsForms/DrawLine";
 import QuestionFormMaleFemale from "src/components/QuestionsForms/MaleFemale";
+import QuestionFormSyllable from "src/components/QuestionsForms/Syllable";
 import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
 import QuestionFormVowelIntro from "src/components/QuestionsForms/VowelIntro";
 
@@ -51,18 +52,18 @@ export function CreateQuestion(type: QUESTION_TYPES): Question | null {
     return question
 }
 
-export function GetForm(question: Question, idx: number, updateFunc= null) {
+export function GetForm(question: Question, idx: number, updateFunc = null) {
     switch (question.type) {
         case QUESTION_TYPES.READ_VOWEL:
-            return <QuestionFormVowelIntro questionData={question} updateFunc={updateFunc} idx={idx}/>
+            return <QuestionFormVowelIntro questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.TEXT_WITH_QUIZ:
-           return <QuestionFormTextWithQuiz questionData={question} updateFunc={updateFunc} idx={idx}/>
+            return <QuestionFormTextWithQuiz questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.MALE_FEMALE:
-            return <QuestionFormMaleFemale questionData={question} updateFunc={updateFunc} idx={idx}/>
+            return <QuestionFormMaleFemale questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.LINE_DRAW:
-            return <QuestionFormDrawLine questionData={question} updateFunc={updateFunc} idx={idx}/>
+            return <QuestionFormDrawLine questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.SYLLABLES:
-            return <div/>
+            return <QuestionFormSyllable questionData={question} updateFunc={updateFunc} idx={idx} />
     }
 }
 
@@ -124,17 +125,17 @@ export class Question {
 }
 
 export class MultipleSelectionQuestion {
-    question: TextWithVoice = {text: '', audio: undefined}
-    correct_answer: Answer = {text: '', texture: undefined}
-    incorrect_answers: Array<Answer> = [{text: '', texture: undefined}, {text: '', texture: undefined}, {text: '', texture: undefined}]
+    question: TextWithVoice = { text: '', audio: undefined }
+    correct_answer: Answer = { text: '', texture: undefined }
+    incorrect_answers: Array<Answer> = [{ text: '', texture: undefined }, { text: '', texture: undefined }, { text: '', texture: undefined }]
     shuffle: boolean = true
     use_textures: boolean = false
     use_text: boolean = true
 }
 
 export class QuestionDataReadText extends Question {
-    text_title: TextWithVoice = {text: "", audio: undefined}
-    text: TextWithVoice = {text: "", audio: undefined}
+    text_title: TextWithVoice = { text: "", audio: undefined }
+    text: TextWithVoice = { text: "", audio: undefined }
     definitions: Array<WordData> = []
     quiz: Array<MultipleSelectionQuestion> = []
 
@@ -174,8 +175,8 @@ export class QuestionDataMaleFemale extends Question {
 }
 
 export class QuestionDataSyllable extends Question {
-    syllables: Array<string>
-    answer_audio: any
+    syllables: Array<string> = []
+    answer_audio: FileData = {base64: '', fileObject: undefined}
 
     constructor() {
         super()
@@ -209,16 +210,14 @@ const getFile = function (base64Data: string, filename: string = '', contentType
         byteArrays.push(byteArray);
     }
 
-    console.log(byteArrays);
-
     return new File(byteArrays, filename, { type: contentType });
 }
 
-export const getImgPreview = function (base64: string, filename: string = '') {
+export const getMediaPreview = function (base64: string, filename: string = '', contentType = "", sliceSize = 512) {
     try {
-        var fileObject = getFile(base64, filename)
-        var img = URL.createObjectURL(fileObject)
-        return img
+        var fileObject = getFile(base64, filename, contentType, sliceSize)
+        var preview = URL.createObjectURL(fileObject)
+        return preview
     } catch (e) {
         return ''
     }
