@@ -25,7 +25,11 @@ export default function MainPage() {
         }
     }
 
-    const saveLessons = function (lessons) {
+    useEffect(() => {
+        setLessonsList(retrieveLessons())
+    }, [])
+
+    const saveLessons = function (lessons, showNotification = false) {
         var seen = [];
         localStorage.setItem("lessons",
             JSON.stringify(lessons, function (key, val) {
@@ -37,24 +41,30 @@ export default function MainPage() {
                 }
                 return val;
             }))
+        if (showNotification) {
+            alert("השיעור נשמר")
+        }
     }
 
     const addNewLesson = function (lessonData) {
         var newList = [...lessonsList]
         newList.push(lessonData)
         setLessonsList(newList)
+        saveLessons(newList, false)
     }
 
     const deleteLesson = function (idx) {
         var newList = [...lessonsList]
         newList.splice(idx, 1)
         setLessonsList(newList)
+        saveLessons(newList, true)
     }
 
     const updateLesson = function (idx, newData) {
         var newList = [...lessonsList]
         newList[idx] = newData
         setLessonsList(newList)
+        saveLessons(newList, true)
     }
 
     const download = function (content, fileName, contentType) {
@@ -69,18 +79,6 @@ export default function MainPage() {
         var data = lessonsList[idx]
         download(JSON.stringify(data, undefined, '\t'), data.lesson_name + ".json", "text/plain");
     }
-
-
-    useEffect(() => {
-        if (lessonsList != undefined) {
-            saveLessons(lessonsList)
-        }
-
-    }, [lessonsList])
-
-    useEffect(() => {
-        setLessonsList(retrieveLessons())
-    }, [])
 
     const getLessonEditor = function () {
         if (editedLessonIdx < 0) {
