@@ -26,12 +26,12 @@ export default function QuestionFormDrawLine(props) {
         setQuestionData(newData)
     }
 
-    const deleteWord = function(idx) {
+    const deleteWord = function (idx) {
         var newData = { ...questionData }
         newData.words.splice(idx, 1)
         setQuestionData(newData)
     }
-    
+
     const updateWord = async function (idx: number, word: string, img: FileData) {
         var newData = { ...questionData }
         if (img != undefined) {
@@ -50,7 +50,7 @@ export default function QuestionFormDrawLine(props) {
         return (
             <Row key={idx}>
                 <Col sm={1}>
-                    <CloseButton onClick={(e) => deleteWord(idx)}/>
+                    <CloseButton onClick={(e) => deleteWord(idx)} />
                 </Col>
                 <Col>
                     <Form.Control
@@ -71,11 +71,12 @@ export default function QuestionFormDrawLine(props) {
                     />
                 </Col>
                 <Col>
-                    <Image
-                        src={getMediaPreview(questionData.words[idx].texture.base64, "img-" + idx)}
-                        rounded
-                        fluid
-                        style={{maxHeight: "100px"}} />
+                    {questionData.words[idx].texture ?
+                        <Image
+                            src={getMediaPreview(questionData.words[idx].texture.base64, "img-" + idx)}
+                            rounded
+                            fluid
+                            style={{ maxHeight: "100px" }} /> : ""}
                 </Col>
             </Row>
         )
