@@ -20,7 +20,7 @@ export default function QuestionFormDrawLine(props) {
 
 
 
-    const addNewWord = function (word: string = '', img: FileData = undefined) {
+    const addNewWord = function (word: string = '', img: FileData = {base64: '', fileObject: undefined}) {
         var newData = { ...questionData }
         newData.words.push({ word: { text: word, audio: undefined }, definition: undefined, texture: img })
         setQuestionData(newData)
