@@ -63,7 +63,7 @@ export default function QuestionFormDrawLine(props) {
                     <Form.Control
                         id={"file_upload_" + idx}
                         type="file"
-                        required
+                        isValid={questionData.words[idx].texture.fileObject != undefined}
                         accept="image/png, image/jpeg, image/jpg, image/svg"
                         onChange={(e) => updateWord(
                             idx, questionData.words[idx].word.text,
