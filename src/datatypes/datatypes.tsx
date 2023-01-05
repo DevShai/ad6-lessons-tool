@@ -27,7 +27,7 @@ export const QUESTION_TYPES_INFO = {
     "טקסט עם שאלות": QUESTION_TYPES.TEXT_WITH_QUIZ,
     "מיון מילים לפי זכר או נקבה": QUESTION_TYPES.MALE_FEMALE,
     "מתיחת קו בין תמונה למילה": QUESTION_TYPES.LINE_DRAW,
-    "פירוק להבהרות": QUESTION_TYPES.SYLLABLES,
+    "פירוק להברות": QUESTION_TYPES.SYLLABLES,
 }
 
 export function CreateQuestion(type: QUESTION_TYPES): Question | null {
@@ -67,9 +67,14 @@ export function GetForm(question: Question, idx: number, updateFunc = null) {
     }
 }
 
+export interface FileData {
+    fileObject: File
+    base64: string
+}
+
 interface TextWithVoice {
     text: string
-    audio: Array<any>
+    audio: FileData
 }
 
 interface Answer {
@@ -77,10 +82,6 @@ interface Answer {
     texture: any
 }
 
-export interface FileData {
-    fileObject: File
-    base64: string
-}
 
 interface WordData {
     word: TextWithVoice
@@ -175,8 +176,8 @@ export class QuestionDataMaleFemale extends Question {
 }
 
 export class QuestionDataSyllable extends Question {
-    syllables: Array<string> = []
-    answer_audio: FileData = {base64: '', fileObject: undefined}
+    syllables: Array<TextWithVoice> = []
+    answer_audio: FileData = { base64: '', fileObject: undefined }
 
     constructor() {
         super()
@@ -184,12 +185,22 @@ export class QuestionDataSyllable extends Question {
     }
 }
 
-export const getBase64 = function (file: File): Promise<string> {
+export const getBase64 = function (file: File, trim: boolean = true): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = error => reject(error);
+        if (file == undefined) {
+            resolve('')
+        } else {
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                var result = reader.result as string
+                if (trim && result.indexOf(",") >= 0) {
+                    result = result.split(',')[1]
+                }
+                resolve(result);
+            }
+            reader.onerror = error => reject(error);
+        }
     });
 }
 

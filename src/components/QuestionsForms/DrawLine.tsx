@@ -36,9 +36,6 @@ export default function QuestionFormDrawLine(props) {
         var newData = { ...questionData }
         if (img != undefined) {
             var newBase64 = await getBase64(img.fileObject)
-            if (newBase64.indexOf(',') >= 0) {
-                newBase64 = newBase64.split(',')[1];
-            }
             img.base64 = newBase64
         }
         newData.words[idx] = { word: { text: word, audio: undefined }, definition: undefined, texture: img }

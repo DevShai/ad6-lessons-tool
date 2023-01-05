@@ -22,7 +22,7 @@ export default function QuestionFormSyllable(props) {
 
     const addSyllable = function (syllable: string = '') {
         var newData = { ...questionData }
-        newData.syllables.push(syllable)
+        newData.syllables.push({ text: syllable, audio: {base64: '', fileObject: undefined} })
         setQuestionData(newData)
     }
 
@@ -32,18 +32,16 @@ export default function QuestionFormSyllable(props) {
         setQuestionData(newData)
     }
 
-    const updateSyllable = function (idx: number, syllable: string) {
+    const updateSyllable = async function (idx: number, syllable: string, audio: File) {
         var newData = { ...questionData }
-        newData.syllables[idx] = syllable
+        var base64Data: string = await getBase64(audio)
+        newData.syllables[idx] = { text: syllable, audio: { fileObject: audio, base64: base64Data } }
         setQuestionData(newData)
     }
 
     const updateRecording = async function (recording: File) {
         var newData = { ...questionData }
         var base64Data: string = await getBase64(recording)
-        if (base64Data.indexOf(',') >= 0) {
-            base64Data = base64Data.split(',')[1];
-        }
         newData.answer_audio = { base64: base64Data, fileObject: recording }
         setQuestionData(newData)
     }
@@ -58,9 +56,21 @@ export default function QuestionFormSyllable(props) {
                 <Col>
                     <Form.Control
                         required
-                        placeholder="הבהרה"
-                        onChange={(e) => updateSyllable(idx, e.target.value)}
-                        value={questionData.syllables[idx]} />
+                        placeholder="הברה"
+                        onChange={(e) => updateSyllable(idx, e.target.value, questionData.syllables[idx].audio.fileObject)}
+                        value={questionData.syllables[idx].text} />
+                </Col>
+                <Col>
+                    <Form.Control
+                        id={"recording_" + idx}
+                        type="file"
+                        accept="audio/*"
+                        isValid={questionData.syllables[idx].audio.fileObject != undefined}
+                        onChange={(e) => updateSyllable(idx, questionData.syllables[idx].text, (e.target as HTMLInputElement).files[0])}
+                    />
+                </Col>
+                <Col>
+                    <audio controls src={getMediaPreview(questionData.syllables[idx].audio.base64, "syllable-" + idx)} />
                 </Col>
             </Row>
         )
@@ -70,7 +80,7 @@ export default function QuestionFormSyllable(props) {
         <Container fluid>
             <Form.Group as={Row} className="mb-3">
                 <Col sm={2}>
-                    הקלטה
+                    הקלטה של המילה\המשפט במלואו
                 </Col>
                 <Col>
                     <Form.Control
@@ -82,17 +92,21 @@ export default function QuestionFormSyllable(props) {
                     />
                 </Col>
                 <Col>
-                    <audio controls src={getMediaPreview(questionData.answer_audio.base64, "recording")}/>
+                    <audio controls src={getMediaPreview(questionData.answer_audio.base64, "recording")} />
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>הבהרות ({questionData.syllables.length})</Form.Label>
+                <Form.Label column sm={2}>הברות ({questionData.syllables.length})</Form.Label>
                 <Col sm={2}>
                     <Button
                         onClick={(e) => addSyllable()}>+
                     </Button>
-                    {questionData.syllables.map((_val, idx) => getSyllableRow(idx))}
                 </Col>
+                <Row>
+                    <Col>
+                        {questionData.syllables.map((_val, idx) => getSyllableRow(idx))}
+                    </Col>
+                </Row>
             </Form.Group>
         </Container>
     )

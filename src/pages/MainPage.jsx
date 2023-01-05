@@ -54,10 +54,12 @@ export default function MainPage() {
     }
 
     const deleteLesson = function (idx) {
-        var newList = [...lessonsList]
-        newList.splice(idx, 1)
-        setLessonsList(newList)
-        saveLessons(newList, false)
+        if (window.confirm(`למחוק את השיעור ${lessonsList[idx].lesson_name} ואת כל השאלות שבו?`)) {
+            var newList = [...lessonsList]
+            newList.splice(idx, 1)
+            setLessonsList(newList)
+            saveLessons(newList, false)
+        }
     }
 
     const updateLesson = function (idx, newData) {

@@ -32,9 +32,11 @@ export default function LessonForm(props) {
     }
 
     const deleteQuestion = function (idx: number) {
-        var newData = { ...lessonData }
-        newData.questions.splice(idx, 1)
-        setLessonData(newData)
+        if (window.confirm(`למחוק את שאלה ${idx + 1}?`)) {
+            var newData = { ...lessonData }
+            newData.questions.splice(idx, 1)
+            setLessonData(newData)
+        }
     }
 
     return (
