@@ -76,7 +76,7 @@ export default function QuestionFormSyllable(props) {
                     <Form.Control
                         id={"recording_upload"}
                         type="file"
-                        required
+                        isValid={questionData.answer_audio.fileObject != undefined}
                         accept="audio/*"
                         onChange={(e) => updateRecording((e.target as HTMLInputElement).files[0])}
                     />
