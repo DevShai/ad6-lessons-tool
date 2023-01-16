@@ -1,14 +1,15 @@
 import LessonsList from '../components/LessonsList';
 import NewLessonDialog from '../components/NewLessonDialog';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Form, FormLabel } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import EditLesson from '../components/EditLesson';
 import '../styles/MainPage.css'
+import React from 'react';
 
 export default function MainPage() {
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [lessonsList, setLessonsList] = useState()
+    const [lessonsList, setLessonsList] = useState([])
     const [editedLessonIdx, setEditedLessonIdx] = useState(-1)
 
     const retrieveLessons = function () {
@@ -51,6 +52,7 @@ export default function MainPage() {
         newList.push(lessonData)
         setLessonsList(newList)
         saveLessons(newList, false)
+        setEditedLessonIdx(newList.length - 1)
     }
 
     const deleteLesson = function (idx) {
@@ -59,6 +61,7 @@ export default function MainPage() {
             newList.splice(idx, 1)
             setLessonsList(newList)
             saveLessons(newList, false)
+            setEditedLessonIdx(-1)
         }
     }
 
@@ -93,22 +96,50 @@ export default function MainPage() {
         }
     }
 
+    const importLesson = function (file: File) {
+
+        const onReaderLoad = (e) => {
+            var obj = JSON.parse(e.target.result)
+            addNewLesson(obj)
+        } 
+
+        var reader = new FileReader()
+        reader.onload = onReaderLoad
+        reader.readAsText(file)
+    }
+
     return (
         <div className="MainPage">
-            <h1>כלי ניהול שיעורים</h1>
-            <NewLessonDialog
-                visible={modalVisible}
-                onHide={() => setModalVisible(false)}
-                saveLesson={addNewLesson}
-                deleteLesson={deleteLesson} />
+            <Container>
+                <h1>כלי ניהול שיעורים</h1>
+                <NewLessonDialog
+                    visible={modalVisible}
+                    onHide={() => setModalVisible(false)}
+                    saveLesson={addNewLesson}
+                    deleteLesson={deleteLesson} />
 
-            <LessonsList
-                lessons={lessonsList}
-                deleteLesson={deleteLesson}
-                editLesson={setEditedLessonIdx}
-                exportLesson={exportLesson} />
+                <LessonsList
+                    lessons={lessonsList}
+                    deleteLesson={deleteLesson}
+                    editLesson={setEditedLessonIdx}
+                    exportLesson={exportLesson} />
+            </Container>
+            <br />
+            <Container style={{ gap: "1rem", display: "inline-flex", justifyContent: "center" }}>
+                <Button
+                    onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
+                <Form.Control
+                    type={"file"}
+                    id={"importLessonBtn"}
+                    accept="application/json" 
+                    onChange={(e) => importLesson((e.target as HTMLInputElement).files[0])}
+                    hidden />
+                <Button
+                    as={FormLabel as any}
+                    for="importLessonBtn"
+                    style={{ marginBottom: 0 }}>ייבוא שיעור מקובץ</Button>
 
-            <Button onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
+            </Container>
 
             <br /><hr /><br />
             {getLessonEditor()}
