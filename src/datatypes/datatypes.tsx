@@ -167,7 +167,8 @@ export class QuestionDataDrawLine extends Question {
 }
 
 export class QuestionDataMaleFemale extends Question {
-    word_pairs: Array<WordGenderData> = []
+    female_words: Array<string> = []
+    male_words: Array<string> = []
 
     constructor() {
         super()

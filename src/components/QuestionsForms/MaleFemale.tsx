@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form, Row, Col } from "react-bootstrap";
+import { Button, Container, Form, Row, Col, CloseButton } from "react-bootstrap";
 import { QuestionDataMaleFemale } from "src/datatypes/datatypes";
 
 export default function QuestionFormMaleFemale(props) {
@@ -18,49 +18,98 @@ export default function QuestionFormMaleFemale(props) {
         }
     }, [questionData])
 
-    const updatePair = function (idx: number, female: string, male: string) {
+    const updateWord = (female: boolean, idx: number, newVal: string) => {
         var newData = { ...questionData }
-        newData.word_pairs[idx] = { female: female, male: male }
+        if (female) {
+            newData.female_words[idx] = newVal
+        } else {
+            newData.male_words[idx] = newVal
+        }
         setQuestionData(newData)
     }
 
-    const addNewPair = function () {
+    const addNewWord = (female: boolean) => {
         var newData = { ...questionData }
-        newData.word_pairs.push({ male: '', female: '' })
+        if (female) {
+            newData.female_words.push("")
+        } else {
+            newData.male_words.push("")
+        }
         setQuestionData(newData)
     }
 
-    const getWordsPairRow = function (idx: number) {
-        return (
-            <Row key={idx}>
-                <Col>
-                    <Form.Control
-                        required
-                        placeholder="נקבה"
-                        onChange={(e) => updatePair(idx, e.target.value, questionData.word_pairs[idx].male)}
-                        value={questionData.word_pairs[idx].female} />
-                </Col>
-                <Col>
-                    <Form.Control
-                        required
-                        placeholder="זכר"
-                        onChange={(e) => updatePair(idx, questionData.word_pairs[idx].female, e.target.value)}
-                        value={questionData.word_pairs[idx].male} />
-                </Col>
-            </Row>
-
-        )
+    const deleteWord = (female: boolean, idx: number) => {
+        var newData = { ...questionData }
+        if (female) {
+            newData.female_words.splice(idx, 1)
+        } else {
+            newData.male_words.splice(idx, 1)
+        }
+        setQuestionData(newData)
     }
+
+
 
     return (
         <Container fluid>
-            <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={2}>מילים ({questionData.word_pairs.length})</Form.Label>
-                <Col sm={2}>
-                    <Button onClick={addNewPair}>+</Button>
+            <Row>
+                <Col>
+                    <span> נקבה </span>
                 </Col>
-            </Form.Group>
-            {questionData.word_pairs.map((_val, idx) => getWordsPairRow(idx))}
-        </Container>
+                <Col>
+                    <span> זכר </span>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    {questionData.female_words.map((val, idx) => (
+                        <Row>
+                            <Col sm={2} style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "flex-end"
+                            }}>
+                                <CloseButton onClick={() => deleteWord(true, idx)} />
+                            </Col>
+                            <Col sm={10}>
+                                <Form.Control
+                                    required
+                                    key={idx}
+                                    type="text"
+                                    placeholder="מילה..."
+                                    value={val}
+                                    onChange={(e) => updateWord(true, idx, e.target.value)} />
+                            </Col>
+                        </Row>
+                    ))}
+                    <Button onClick={() => addNewWord(true)}>+</Button>
+
+                </Col>
+                <Col>
+                    {questionData.male_words.map((val, idx) => (
+                        <Row>
+                            <Col sm={2} style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "flex-end"
+                            }}>
+                                <CloseButton onClick={() => deleteWord(false, idx)} />
+                            </Col>
+                            <Col sm={10}>
+                                <Form.Control
+                                    required
+                                    key={idx}
+                                    type="text"
+                                    placeholder="מילה..."
+                                    value={val}
+                                    onChange={(e) => updateWord(false, idx, e.target.value)} />
+                            </Col>
+                        </Row>
+                    ))}
+                    <Button onClick={() => addNewWord(false)}>+</Button>
+                </Col>
+            </Row >
+
+        </Container >
     )
 }
