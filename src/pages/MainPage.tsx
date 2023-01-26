@@ -5,53 +5,18 @@ import { useEffect, useState } from 'react';
 import EditLesson from '../components/lessons/EditLesson';
 import 'src/assets/styles/MainPage.css'
 import React from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function MainPage() {
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [lessonsList, setLessonsList] = useState([])
+    const [lessonsList, setLessonsList] = useLocalStorage("lessons", [])
     const [editedLessonIdx, setEditedLessonIdx] = useState(-1)
-
-    const retrieveLessons = function () {
-        try {
-            var list = JSON.parse(localStorage.getItem("lessons"))
-            if (list != null) {
-                return list
-            } else {
-                return []
-            }
-
-        } catch (_e) {
-            return []
-        }
-    }
-
-    useEffect(() => {
-        setLessonsList(retrieveLessons())
-    }, [])
-
-    const saveLessons = function (lessons, showNotification = false) {
-        var seen = [];
-        localStorage.setItem("lessons",
-            JSON.stringify(lessons, function (key, val) {
-                if (val != null && typeof val == "object") {
-                    if (seen.indexOf(val) >= 0) {
-                        return;
-                    }
-                    seen.push(val);
-                }
-                return val;
-            }))
-        if (showNotification) {
-            alert("השיעור נשמר")
-        }
-    }
 
     const addNewLesson = function (lessonData) {
         var newList = [...lessonsList]
         newList.push(lessonData)
         setLessonsList(newList)
-        saveLessons(newList, false)
         setEditedLessonIdx(newList.length - 1)
     }
 
@@ -60,7 +25,6 @@ export default function MainPage() {
             var newList = [...lessonsList]
             newList.splice(idx, 1)
             setLessonsList(newList)
-            saveLessons(newList, false)
             setEditedLessonIdx(-1)
         }
     }
@@ -69,7 +33,6 @@ export default function MainPage() {
         var newList = [...lessonsList]
         newList[idx] = newData
         setLessonsList(newList)
-        saveLessons(newList, true)
     }
 
     const download = function (content, fileName, contentType) {
