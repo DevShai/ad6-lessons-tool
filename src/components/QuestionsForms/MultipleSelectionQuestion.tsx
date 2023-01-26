@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { MultipleSelectionQuestion } from "src/datatypes/datatypes";
+import { MultipleSelectionQuestion } from "src/types/datatypes";
 
 export default function MultipleSelectionQuestionForm(props) {
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Row, Col, CloseButton } from "react-bootstrap";
-import { QuestionDataMaleFemale } from "src/datatypes/datatypes";
+import { QuestionDataMaleFemale } from "src/types/datatypes";
 
 export default function QuestionFormMaleFemale(props) {
 

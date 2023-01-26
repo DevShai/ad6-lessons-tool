@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
-import '../styles/MainPage.css'
-import { CreateQuestion, Lesson, Question, QUESTION_TYPES, VOWEL } from '../datatypes/datatypes'
+import 'src/assets/styles/MainPage.css'
+import { CreateQuestion, Lesson, Question, QUESTION_TYPES, VOWEL } from 'src/types/datatypes'
 import QuestionsNav from './QuestionsNav';
 
 export default function LessonForm(props) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CloseButton, Col, Container, DropdownButton, ListGroup, Row, Tab, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { CreateQuestion, getDisplayName, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/datatypes/datatypes';
-import 'src/styles/MainPage.css'
+import { CreateQuestion, getDisplayName, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/types/datatypes';
+import 'src/assets/styles/MainPage.css'
 
 const styles = {
     tabs: {

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { QuestionDataReadVowel, VOWEL } from "src/datatypes/datatypes";
+import { QuestionDataReadVowel, VOWEL } from "src/types/datatypes";
 
 export default function QuestionFormVowelIntro(props) {
 

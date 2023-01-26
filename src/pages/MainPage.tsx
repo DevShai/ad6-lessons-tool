@@ -1,9 +1,9 @@
-import LessonsList from '../components/LessonsList';
-import NewLessonDialog from '../components/NewLessonDialog';
+import LessonsList from 'src/components/lessons/LessonsList';
+import NewLessonDialog from 'src/components/lessons/NewLessonDialog';
 import { Button, Container, Form, FormLabel } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import EditLesson from '../components/EditLesson';
-import '../styles/MainPage.css'
+import EditLesson from '../components/lessons/EditLesson';
+import 'src/assets/styles/MainPage.css'
 import React from 'react';
 
 export default function MainPage() {

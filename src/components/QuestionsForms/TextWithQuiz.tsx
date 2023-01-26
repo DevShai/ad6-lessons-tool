@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Container, Button } from 'react-bootstrap';
-import { MultipleSelectionQuestion, QuestionDataReadText } from 'src/datatypes/datatypes';
-import 'src/styles/MainPage.css'
+import { MultipleSelectionQuestion, QuestionDataReadText } from 'src/types/datatypes';
+import 'src/assets/styles/MainPage.css'
 import MultipleSelectionQuestionForm from './MultipleSelectionQuestion';
 
 export default function QuestionFormTextWithQuiz(props) {
