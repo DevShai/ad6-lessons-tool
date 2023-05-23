@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Form, Row, Col, Image, CloseButton } from "react-bootstrap";
 import { FileData, getBase64, getMediaPreview, QuestionDataSyllable } from "src/datatypes/datatypes";
+import TextWithAudioField from "../fields/TextWithAudioField";
 
 export default function QuestionFormSyllable(props) {
 
