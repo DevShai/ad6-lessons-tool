@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Col, Row, CloseButton } from "react-bootstrap";
-import { getMediaPreview, TextWithVoice } from "src/datatypes/datatypes";
+import { getMediaPreview, TextWithVoice } from "src/types/datatypes";
 
 
 interface FieldProps {
