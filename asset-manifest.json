@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ad6-lessons-tool/static/css/main.00ebbea1.css",
-    "main.js": "/ad6-lessons-tool/static/js/main.ad120652.js",
+    "main.js": "/ad6-lessons-tool/static/js/main.8a47ff3e.js",
     "static/js/787.0f03a1cf.chunk.js": "/ad6-lessons-tool/static/js/787.0f03a1cf.chunk.js",
     "index.html": "/ad6-lessons-tool/index.html",
     "main.00ebbea1.css.map": "/ad6-lessons-tool/static/css/main.00ebbea1.css.map",
-    "main.ad120652.js.map": "/ad6-lessons-tool/static/js/main.ad120652.js.map",
+    "main.8a47ff3e.js.map": "/ad6-lessons-tool/static/js/main.8a47ff3e.js.map",
     "787.0f03a1cf.chunk.js.map": "/ad6-lessons-tool/static/js/787.0f03a1cf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.00ebbea1.css",
-    "static/js/main.ad120652.js"
+    "static/js/main.8a47ff3e.js"
   ]
 }
