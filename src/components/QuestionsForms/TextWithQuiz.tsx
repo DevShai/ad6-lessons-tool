@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, Container, Button } from 'react-bootstrap';
-import { MultipleSelectionQuestion, QuestionDataReadText } from 'src/types/datatypes';
+import { Form, Row, Col, Container, Button, CloseButton } from 'react-bootstrap';
+import { MultipleSelectionQuestion, QuestionDataReadText, TextWithVoice, WordData, getBase64, getMediaPreview } from 'src/types/datatypes';
 import 'src/assets/styles/MainPage.css'
 import MultipleSelectionQuestionForm from './MultipleSelectionQuestion';
 
@@ -20,8 +20,6 @@ export default function QuestionFormTextWithQuiz(props) {
         }
     }, [questionData])
 
-    
-
     const addQuizQuestion = function () {
         var newQuestionData = { ...questionData }
         newQuestionData.quiz.push(new MultipleSelectionQuestion())
@@ -33,6 +31,109 @@ export default function QuestionFormTextWithQuiz(props) {
         newQuestionData.quiz[idx] = newData
         setQuestionData(newQuestionData)
     }
+
+    const addDifficultWord = function () {
+        var newQuestionData = { ...questionData }
+        var newWord: WordData = { word: { text: '', audio: {fileObject: null, base64: ''} }, definition: { text: '', audio: {fileObject: null, base64: ''} } } 
+        newQuestionData.definitions.push(newWord)
+        setQuestionData(newQuestionData)
+    }
+
+    const deleteDifficultWord = function (idx: number) {
+        var newQuestionData = { ...questionData }
+        newQuestionData.definitions.splice(idx, 1)
+        setQuestionData(newQuestionData)
+    }
+
+    const updateDifficultWordText = function (idx: number, newWordText: string, newDefinitionText: string) {
+        var newQuestionData = { ...questionData }
+        newQuestionData.definitions[idx].word.text = newWordText
+        newQuestionData.definitions[idx].definition.text = newDefinitionText
+        setQuestionData(newQuestionData)
+    }
+
+    const updateDifficultWordAudio = async function (idx: number, newWordAudio: File, newDefinitionAudio: File) {
+        var newQuestionData = { ...questionData }
+        newQuestionData.definitions[idx].word.audio.fileObject = newWordAudio
+        newQuestionData.definitions[idx].word.audio.base64 = await getBase64(newWordAudio)
+
+        newQuestionData.definitions[idx].definition.audio.fileObject = newDefinitionAudio
+        newQuestionData.definitions[idx].definition.audio.base64 = await getBase64(newDefinitionAudio)
+        
+        setQuestionData(newQuestionData)
+    }
+
+    const getDifficultWordRow = function (idx: number) {
+        return (
+            <Row key={idx}>
+                <Col sm={1}>
+                    <CloseButton onClick={(e) => deleteDifficultWord(idx)} />
+                </Col>
+                <Col>
+                    <Form.Control
+                        required
+                        placeholder="מילה"
+                        onChange={(e) => updateDifficultWordText(
+                            idx,
+                            e.target.value,
+                            questionData.definitions[idx].definition.text)}
+                        value={questionData.definitions[idx].word.text} />
+                </Col>
+                <Col>
+                    <Form.Control
+                        id={"recording_word_" + idx}
+                        type="file"
+                        accept=".mp3"
+                        onChange={(e) => updateDifficultWordAudio(
+                            idx,
+                            (e.target as HTMLInputElement).files[0],
+                            questionData.definitions[idx].definition.audio.fileObject
+                        )}
+                    />
+                </Col>
+                <Col>
+                    <audio controls src={getMediaPreview(questionData.definitions[idx].word.audio.base64, "word-" + idx)} />
+                </Col>
+            </Row>
+        )
+    }
+
+    const getDefinitionRow = function (idx: number) {
+        return (
+            <Row key={idx}>
+                <Col sm={1}>
+                    
+                </Col>
+                <Col>
+                    <Form.Control
+                        required
+                        placeholder="הגדרה"
+                        onChange={(e) => updateDifficultWordText(
+                            idx,
+                            questionData.definitions[idx].word.text,
+                            e.target.value,
+                        )}
+                        value={questionData.definitions[idx].definition.text} />
+                </Col>
+                <Col>
+                    <Form.Control
+                        id={"recording_definition_" + idx}
+                        type="file"
+                        accept=".mp3"
+                        onChange={(e) => updateDifficultWordAudio(
+                            idx,
+                            questionData.definitions[idx].word.audio.fileObject,
+                            (e.target as HTMLInputElement).files[0]
+                        )}
+                    />
+                </Col>
+                <Col>
+                    <audio controls src={getMediaPreview(questionData.definitions[idx].definition.audio.base64, "word-" + idx)} />
+                </Col>
+            </Row>
+        )
+    }
+
 
     return (
         <Container fluid>
@@ -60,6 +161,20 @@ export default function QuestionFormTextWithQuiz(props) {
                         onChange={(e) => setQuestionData({ ...questionData, text: { text: e.target.value, audio: undefined } })} />
                 </Col>
             </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                    מילים קשות
+                </Form.Label>
+                <Col sm={10}>
+                    <Button onClick={() => (addDifficultWord())}>+</Button>
+                    {questionData.definitions.map((val, idx) => <Form.Group>
+                        {getDifficultWordRow(idx)} <br/>
+                        {getDefinitionRow(idx)}
+                    </Form.Group>)}
+                </Col>
+            </Form.Group>
+
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
                     שאלות

@@ -2,7 +2,7 @@
   "name": "ad6-admin-tool",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ababen1.github.io/ad6-lessons-tool",
+  "homepage": "https://devshai.github.io/ad6-lessons-tool",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

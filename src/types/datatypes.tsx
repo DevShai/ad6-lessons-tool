@@ -72,8 +72,8 @@ export interface FileData {
     base64: string
 }
 
-interface TextWithVoice {
-    text: string
+export interface TextWithVoice {
+    text: string 
     audio: FileData
 }
 
@@ -83,10 +83,10 @@ interface Answer {
 }
 
 
-interface WordData {
+export interface WordData {
     word: TextWithVoice
     definition: TextWithVoice
-    texture: FileData
+    texture?: FileData
 }
 
 export interface WordGenderData {
