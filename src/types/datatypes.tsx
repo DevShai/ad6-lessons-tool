@@ -237,7 +237,7 @@ const getFile = function (base64Data: string, filename: string = '', contentType
     return new File(byteArrays, filename, { type: contentType });
 }
 
-export const getMediaPreview = function (base64: string, filename: string = '', contentType = "", sliceSize = 512) {
+export const getMediaPreview = function (base64: string, filename: string = '', contentType: string = "", sliceSize: number = 512) {
     try {
         var fileObject = getFile(base64, filename, contentType, sliceSize)
         var preview = URL.createObjectURL(fileObject)

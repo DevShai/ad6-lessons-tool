@@ -15,6 +15,8 @@ import WordsTab from './WordsTab';
 export default function MainPage() {
 
     const [lessonsList, setLessonsList] = useLocalStorage("lessons", []);
+    const [wordsList, setWordsList] = useLocalStorage("words", []);
+
     const [currentTab, setCurrentTab] = useState("lessons");
 
     return (
@@ -36,7 +38,7 @@ export default function MainPage() {
                         setLessonsList={setLessonsList} />
                 </Tab>
                 <Tab title="מאגר מילים" eventKey={"words"}>
-                    <WordsTab lessons={lessonsList}/>
+                    <WordsTab words={wordsList}/>
                 </Tab>
 
             </Tabs>
