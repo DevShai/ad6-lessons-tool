@@ -17,7 +17,7 @@ export default function EditLesson(props) {
     }
 
     return (
-        <Container fluid>
+        <Container fluid style={{padding: "1rem"}}>
             <LessonForm
                 lessonData={lessonData} 
                 onSubmit={onSubmit}

@@ -11,7 +11,7 @@ export enum VOWEL {
     E = "חיריק",
     O = "קובוץ, שורוק",
     I = "חולם",
-    U = "סגול, צירה"
+    U = "סגול, צירה",
 }
 
 export enum QUESTION_TYPES {
@@ -20,6 +20,7 @@ export enum QUESTION_TYPES {
     MALE_FEMALE,
     LINE_DRAW,
     SYLLABLES,
+    SYNONYMS_OPPOSITES,
 }
 
 export const QUESTION_TYPES_INFO = {
@@ -28,6 +29,8 @@ export const QUESTION_TYPES_INFO = {
     "מיון מילים לפי זכר או נקבה": QUESTION_TYPES.MALE_FEMALE,
     "מתיחת קו בין תמונה למילה": QUESTION_TYPES.LINE_DRAW,
     "פירוק להברות": QUESTION_TYPES.SYLLABLES,
+    "מילים נרדפות וניגודיות": QUESTION_TYPES.SYNONYMS_OPPOSITES,
+
 }
 
 export function CreateQuestion(type: QUESTION_TYPES): Question | null {
@@ -64,6 +67,7 @@ export function GetForm(question: Question, idx: number, updateFunc = null) {
             return <QuestionFormDrawLine questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.SYLLABLES:
             return <QuestionFormSyllable questionData={question} updateFunc={updateFunc} idx={idx} />
+        
     }
 }
 
@@ -74,7 +78,7 @@ export interface FileData {
 
 export interface TextWithVoice {
     text: string 
-    audio: FileData
+    audio?: FileData
 }
 
 interface Answer {
@@ -82,11 +86,18 @@ interface Answer {
     texture: any
 }
 
+export enum WORD_GENDER {
+    M,
+    F,
+    ANY,
+    UNDEFINED
+}
 
 export interface WordData {
     word: TextWithVoice
-    definition: TextWithVoice
+    definition?: TextWithVoice
     texture?: FileData
+    gender?: WORD_GENDER 
 }
 
 export interface WordGenderData {
@@ -176,6 +187,7 @@ export class QuestionDataMaleFemale extends Question {
     }
 }
 
+//TODO change this to have the entire final word instead of just audio
 export class QuestionDataSyllable extends Question {
     syllables: Array<TextWithVoice> = []
     answer_audio: FileData = { base64: '', fileObject: undefined }

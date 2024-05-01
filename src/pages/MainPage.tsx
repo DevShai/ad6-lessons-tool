@@ -1,112 +1,46 @@
 import LessonsList from 'src/components/lessons/LessonsList';
 import NewLessonDialog from 'src/components/lessons/NewLessonDialog';
 import { Button, Container, Form, FormLabel } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import EditLesson from '../components/lessons/EditLesson';
 import 'src/assets/styles/MainPage.css'
 import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import LessonsTab from './LessonsTab';
+import { Lesson, WordData } from 'src/types/datatypes';
+import WordsTab from './WordsTab';
 
 export default function MainPage() {
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [lessonsList, setLessonsList] = useLocalStorage("lessons", [])
-    const [editedLessonIdx, setEditedLessonIdx] = useState(-1)
-
-    const addNewLesson = function (lessonData) {
-        var newList = [...lessonsList]
-        newList.push(lessonData)
-        setLessonsList(newList)
-        setEditedLessonIdx(newList.length - 1)
-    }
-
-    const deleteLesson = function (idx) {
-        if (window.confirm(`למחוק את השיעור ${lessonsList[idx].lesson_name} ואת כל השאלות שבו?`)) {
-            var newList = [...lessonsList]
-            newList.splice(idx, 1)
-            setLessonsList(newList)
-            setEditedLessonIdx(-1)
-        }
-    }
-
-    const updateLesson = function (idx, newData) {
-        var newList = [...lessonsList]
-        newList[idx] = newData
-        setLessonsList(newList)
-    }
-
-    const download = function (content, fileName, contentType) {
-        const a = document.createElement("a");
-        const file = new Blob([content], { type: contentType });
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
-    }
-
-    const exportLesson = function (idx) {
-        var data = lessonsList[idx]
-        download(JSON.stringify(data, undefined, '\t'), data.lesson_name + ".json", "text/plain");
-    }
-
-    const getLessonEditor = function () {
-        if (editedLessonIdx < 0) {
-            return ""
-        } else {
-            return <EditLesson
-                lessonData={lessonsList[editedLessonIdx]}
-                lessonIdx={editedLessonIdx}
-                updateLesson={updateLesson} />
-        }
-    }
-
-    const importLesson = function (file: File) {
-
-        const onReaderLoad = (e) => {
-            var obj = JSON.parse(e.target.result)
-            addNewLesson(obj)
-        } 
-
-        var reader = new FileReader()
-        reader.onload = onReaderLoad
-        reader.readAsText(file)
-    }
+    const [lessonsList, setLessonsList] = useLocalStorage("lessons", []);
+    const [currentTab, setCurrentTab] = useState("lessons");
 
     return (
         <div className="MainPage">
             <Container>
                 <h1>כלי ניהול שיעורים</h1>
-                <NewLessonDialog
-                    visible={modalVisible}
-                    onHide={() => setModalVisible(false)}
-                    saveLesson={addNewLesson}
-                    deleteLesson={deleteLesson} />
-
-                <LessonsList
-                    lessons={lessonsList}
-                    deleteLesson={deleteLesson}
-                    editLesson={setEditedLessonIdx}
-                    exportLesson={exportLesson} />
             </Container>
             <br />
-            <Container style={{ gap: "1rem", display: "inline-flex", justifyContent: "center" }}>
-                <Button
-                    onClick={() => setModalVisible(true)}>יצירת שיעור חדש</Button>
-                <Form.Control
-                    type={"file"}
-                    id={"importLessonBtn"}
-                    accept="application/json" 
-                    onChange={(e) => importLesson((e.target as HTMLInputElement).files[0])}
-                    hidden />
-                <Button
-                    as={FormLabel as any}
-                    for="importLessonBtn"
-                    style={{ marginBottom: 0 }}>ייבוא שיעור מקובץ</Button>
+            <Tabs
+                id="main-page-tabs"
+                activeKey={currentTab}
+                onSelect={(k) => setCurrentTab(k)}
+                className="tabs-container"
 
-            </Container>
+            >
+                <Tab title="שיעורים" eventKey={"lessons"}>
+                    <LessonsTab
+                        lessonsList={lessonsList}
+                        setLessonsList={setLessonsList} />
+                </Tab>
+                <Tab title="מאגר מילים" eventKey={"words"}>
+                    <WordsTab lessons={lessonsList}/>
+                </Tab>
 
-            <br /><hr /><br />
-            {getLessonEditor()}
-
-        </div>
+            </Tabs>
+            <br />
+        </div >
     );
 }
