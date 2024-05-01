@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import 'src/assets/styles/MainPage.css'
 import TextWithAudioField from '../fields/TextWithAudioField';
-import { TextWithVoice, getBase64 } from 'src/types/datatypes';
+import { TextWithVoice, WordData, getBase64 } from 'src/types/datatypes';
 import { Col, Form, Row } from 'react-bootstrap';
 import FileInput from '../fields/FileInput';
 
@@ -10,24 +10,28 @@ interface FieldProps {
     visible: boolean
     onHide?: () => void;
     onSubmit?: () => void;
-    wordData?: TextWithVoice,
-    setWordData: (w: TextWithVoice) => void,
 }
 
 const NewWordDialog: React.FC<FieldProps> = ({
     visible = false,
     onHide,
     onSubmit,
-    wordData = { "text": "", "audio": { base64: '', fileObject: null } },
-    setWordData,
 }) => {
 
-    const onAudioUpload = async(event: React.ChangeEvent<HTMLInputElement>) => {
+    const [newWord, setNewWord] = useState<WordData>({word: {text: ""}, definition: {text: ""}});
+
+
+    const onWordAudioUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            wordData.audio.fileObject = event.target.files[0]
-            wordData.audio.base64 = await getBase64(event.target.files[0])
-            
+            newWord.word.audio.fileObject = event.target.files[0]
+            newWord.word.audio.base64 = await getBase64(event.target.files[0])
         }
+    }
+
+    const onWordTextChange = async (event) => {
+        var prev = newWord
+        prev.word.text = event.target.value
+        setNewWord(prev);
     }
 
 
@@ -48,18 +52,21 @@ const NewWordDialog: React.FC<FieldProps> = ({
                             <Col>
                                 <Form.Group controlId="word-text">
                                     <Form.Label>מילה</Form.Label>
-                                    <Form.Control type="text" value={wordData.text} />
+                                    <Form.Control
+                                        type="text" 
+                                        value={newWord.word.text}
+                                        onChange={onWordTextChange}/>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group controlId="word-audio">
                                     <Form.Label>הקלטה   </Form.Label>
                                     <FileInput
-                                        file={wordData.audio}
+                                        file={newWord.word.audio}
                                         filename=''
                                         acceptedFormats='.mp3'
                                         isFileValid={(f) => { return f.fileObject != null }}
-                                        onFileChanged={onAudioUpload}
+                                        onFileChanged={onWordAudioUpload}
                                     />
                                 </Form.Group>
                             </Col>
