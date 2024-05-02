@@ -30,7 +30,7 @@ export default function WordsTab({ words }) {
 
     return <Container fluid style={{ padding: "1rem" }}>
         <NewWordDialog
-            
+            onHide={() => {setModalVisible(false)}}
             visible={modalVisible} />
         <Button variant="primary" onClick={(e) => setModalVisible(true)}>הוספה</Button>
         <Table striped bordered hover size="max" style={{ alignSelf: "center" }}>

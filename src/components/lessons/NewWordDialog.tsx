@@ -1,7 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, EventHandler, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import 'src/assets/styles/MainPage.css'
-import TextWithAudioField from '../fields/TextWithAudioField';
 import { TextWithVoice, WordData, getBase64 } from 'src/types/datatypes';
 import { Col, Form, Row } from 'react-bootstrap';
 import FileInput from '../fields/FileInput';
@@ -18,22 +17,38 @@ const NewWordDialog: React.FC<FieldProps> = ({
     onSubmit,
 }) => {
 
-    const [newWord, setNewWord] = useState<WordData>({word: {text: ""}, definition: {text: ""}});
-
+    const [word, setWord] = useState<TextWithVoice>({ text: "", audio: { base64: "", fileObject: null } })
+    const [definition, setDefinition] = useState<TextWithVoice>({ text: "", audio: { base64: "", fileObject: null } })
 
     const onWordAudioUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            newWord.word.audio.fileObject = event.target.files[0]
-            newWord.word.audio.base64 = await getBase64(event.target.files[0])
+            var updated = { ...word }
+            updated.audio.fileObject = event.target.files[0]
+            updated.audio.base64 = await getBase64(event.target.files[0])
+            setWord(updated)
         }
     }
 
     const onWordTextChange = async (event) => {
-        var prev = newWord
-        prev.word.text = event.target.value
-        setNewWord(prev);
+        var updated = { ...word }
+        updated.text = event.target.value;
+        setWord(updated)
     }
 
+    const onDefinitionAudioUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            var updated = { ...definition }
+            updated.audio.fileObject = event.target.files[0]
+            updated.audio.base64 = await getBase64(event.target.files[0])
+            setWord(updated)
+        }
+    }
+
+    const onDefinitionTextChange = async (event) => {
+        var updated = { ...definition }
+        updated.text = event.target.value;
+        setWord(updated)
+    }
 
     return (
         <>
@@ -53,16 +68,16 @@ const NewWordDialog: React.FC<FieldProps> = ({
                                 <Form.Group controlId="word-text">
                                     <Form.Label>מילה</Form.Label>
                                     <Form.Control
-                                        type="text" 
-                                        value={newWord.word.text}
-                                        onChange={onWordTextChange}/>
+                                        type="text"
+                                        value={word.text}
+                                        onChange={onWordTextChange} />
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group controlId="word-audio">
                                     <Form.Label>הקלטה   </Form.Label>
                                     <FileInput
-                                        file={newWord.word.audio}
+                                        file={word.audio}
                                         filename=''
                                         acceptedFormats='.mp3'
                                         isFileValid={(f) => { return f.fileObject != null }}
@@ -70,6 +85,29 @@ const NewWordDialog: React.FC<FieldProps> = ({
                                     />
                                 </Form.Group>
                             </Col>
+                            <Row>
+                                <Col>
+                                    <Form.Group controlId="word-text">
+                                        <Form.Label>הגדרה</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={definition.text}
+                                            onChange={onDefinitionTextChange} />
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group controlId="word-audio">
+                                        <Form.Label>הקלטה   </Form.Label>
+                                        <FileInput
+                                            file={definition.audio}
+                                            filename=''
+                                            acceptedFormats='.mp3'
+                                            isFileValid={(f) => { return f.fileObject != null }}
+                                            onFileChanged={onDefinitionAudioUpload}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                         </Row>
                     </Form>
                 </Modal.Body>

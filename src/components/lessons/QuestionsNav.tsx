@@ -22,7 +22,7 @@ export default function QuestionsNav(props) {
 
     const getTabs = function () {
         return (
-            <ListGroup style={{ width: "100%"}}>
+            <ListGroup style={{ width: "100%" }}>
                 {elements.map((val, idx) =>
                     <ListGroup.Item action href={"#" + idx} key={idx}>
                         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -69,16 +69,18 @@ export default function QuestionsNav(props) {
                 </Col>
             </Row>
             <br />
-            <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
-                <Row>
-                    <Col sm={3}>
-                        {getTabs()}
-                    </Col>
-                    <Col sm={8}>
-                        {getContent()}
-                    </Col>
-                </Row>
-            </Tab.Container>
+            <Container fluid>
+                <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+                    <Row>
+                        <Col sm={3}>
+                            {getTabs()}
+                        </Col>
+                        <Col>
+                            {getContent()}
+                        </Col>
+                    </Row>
+                </Tab.Container>
+            </Container>
         </Container>
     )
 }

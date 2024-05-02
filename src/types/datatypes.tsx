@@ -2,6 +2,7 @@ import React from "react";
 import QuestionFormDrawLine from "src/components/QuestionsForms/DrawLine";
 import QuestionFormMaleFemale from "src/components/QuestionsForms/MaleFemale";
 import QuestionFormSyllable from "src/components/QuestionsForms/Syllable";
+import QuestionFormSynonyms from "src/components/QuestionsForms/Synonyms";
 import QuestionFormTextWithQuiz from "src/components/QuestionsForms/TextWithQuiz";
 import QuestionFormVowelIntro from "src/components/QuestionsForms/VowelIntro";
 
@@ -51,6 +52,9 @@ export function CreateQuestion(type: QUESTION_TYPES): Question | null {
         case QUESTION_TYPES.SYLLABLES:
             question = new QuestionDataSyllable()
             break;
+        case QUESTION_TYPES.SYNONYMS_OPPOSITES:
+            question = new QuestionDataSynonyms()
+            break;
     }
     return question
 }
@@ -67,7 +71,8 @@ export function GetForm(question: Question, idx: number, updateFunc = null) {
             return <QuestionFormDrawLine questionData={question} updateFunc={updateFunc} idx={idx} />
         case QUESTION_TYPES.SYLLABLES:
             return <QuestionFormSyllable questionData={question} updateFunc={updateFunc} idx={idx} />
-        
+        case QUESTION_TYPES.SYNONYMS_OPPOSITES:
+            return <QuestionFormSynonyms questionData={question} updateFunc={updateFunc} idx={idx} />
     }
 }
 
@@ -77,7 +82,7 @@ export interface FileData {
 }
 
 export interface TextWithVoice {
-    text: string 
+    text: string
     audio?: FileData
 }
 
@@ -97,7 +102,7 @@ export interface WordData {
     word: TextWithVoice
     definition?: TextWithVoice
     texture?: FileData
-    gender?: WORD_GENDER 
+    gender?: WORD_GENDER
 }
 
 export interface WordGenderData {
@@ -195,6 +200,27 @@ export class QuestionDataSyllable extends Question {
     constructor() {
         super()
         this.type = QUESTION_TYPES.SYLLABLES
+    }
+}
+
+export enum WordsPairType {
+    SYNONYM,
+    OPPOSITE
+}
+
+export interface WordsPair {
+    firstWord: WordData
+    secondWord: WordData
+    type: WordsPairType
+}
+
+export class QuestionDataSynonyms extends Question {
+    pairs: Array<WordsPair> = []
+    mode: WordsPairType
+
+    constructor() {
+        super()
+        this.type = QUESTION_TYPES.SYNONYMS_OPPOSITES
     }
 }
 
