@@ -1,15 +1,12 @@
-import LessonsList from 'src/components/lessons/LessonsList';
-import NewLessonDialog from 'src/components/lessons/NewLessonDialog';
-import { Button, Container, Form, FormLabel } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useState } from 'react';
-import EditLesson from '../components/lessons/EditLesson';
 import 'src/assets/styles/MainPage.css'
 import React from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import LessonsTab from './LessonsTab';
-import { Lesson, QUESTION_TYPES, QuestionDataSynonyms, WordData, WordsPair } from 'src/types/datatypes';
+import { Lesson, QUESTION_TYPES, QuestionDataSynonyms, WordsPair } from 'src/types/datatypes';
 import WordsTab from './WordsTab';
 
 export default function MainPage() {
@@ -49,7 +46,7 @@ export default function MainPage() {
                         setLessonsList={setLessonsList} />
                 </Tab>
                 <Tab title="מאגר מילים" eventKey={"words"}>
-                    <WordsTab words={getAllPairs()}/>
+                    <WordsTab pairs={getAllPairs()}/>
                 </Tab>
 
             </Tabs>

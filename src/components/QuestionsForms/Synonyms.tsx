@@ -27,6 +27,9 @@ export default function QuestionFormSynonyms(props) {
     useEffect(() => {
         questionData.pairs = pairs
         questionData.mode = questionMode
+        pairs.forEach(pair => {
+            pair.type = questionMode
+        });
         setQuestionData({ ...questionData })
     }, [pairs, questionMode])
 

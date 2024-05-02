@@ -1,50 +1,78 @@
 import React, { useState } from "react";
-import { Button, Container, Form, Table } from "react-bootstrap";
+import { Accordion, Button, Container, Form, Table } from "react-bootstrap";
 import TextWithAudioField from "src/components/fields/TextWithAudioField";
 import NewWordDialog from "src/components/lessons/NewWordDialog";
-import { Lesson, QUESTION_TYPES, Question, QuestionDataDrawLine, QuestionDataMaleFemale, QuestionDataReadText, WORD_GENDER, WordData } from "src/types/datatypes";
+import { Lesson, QUESTION_TYPES, Question, QuestionDataDrawLine, QuestionDataMaleFemale, QuestionDataReadText, WORD_GENDER, WordData, WordsPair, WordsPairType } from "src/types/datatypes";
 
-const tableBody = function (words: Array<WordData>) {
-    return <tbody>
-        {words.map((value, idx) => <tr>
-            <td>
-                {idx}
-            </td>
-            <td>
-                <Form.Control type="text" value={value.word.text} />
-            </td>
-            <td>
-                <Form.Control as="textarea" rows={3} value={""} />
-            </td>
-            <td>
-                <Form.Control as="textarea" rows={3} value={""} />
-            </td>
-        </tr>)}
-    </tbody>
+const getTable = (pairs: Array<WordsPair>) => {
+    if (pairs.length == 0) {
+        return <span>לא הוספו מילים</span>
+    } else {
+        return <Table striped hover>
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>מילה 1</th>
+                    <th>מילה 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                {pairs.map((value, idx) =>
+                    <tr key={idx}>
+                        <td>
+                            {idx + 1}
+                        </td>
+                        <td>
+                            {value.firstWord.word.text}
+                        </td>
+                        <td>
+                            {value.secondWord.word.text}
+                        </td>
+                    </tr>)}
+            </tbody>
+        </Table>
+    }
 }
 
-export default function WordsTab({ words }) {
+const getOpposites = (list: Array<WordsPair>): Array<WordsPair> => {
+    return list.filter((val: WordsPair) => { return val.type == WordsPairType.OPPOSITE })
+}
 
-    const [wordsList, setWordsList] = useState([]);
+const getSynonyms = (list: Array<WordsPair>): Array<WordsPair> => {
+    return list.filter((val: WordsPair) => { return val.type == WordsPairType.SYNONYM })
+}
+
+interface FieldProps {
+    pairs: Array<WordsPair>
+}
+
+const WordsTab: React.FC<FieldProps> = ({
+    pairs = [],
+}) => {
+
     const [modalVisible, setModalVisible] = useState(false);
 
     return <Container fluid style={{ padding: "1rem" }}>
         <NewWordDialog
-            onHide={() => {setModalVisible(false)}}
+            onHide={() => { setModalVisible(false) }}
             visible={modalVisible} />
         <Button variant="primary" onClick={(e) => setModalVisible(true)}>הוספה</Button>
-        <Table striped bordered hover size="max" style={{ alignSelf: "center" }}>
-            <thead>
-                <tr>
-                    <th >#</th>
-                    <th>מילה</th>
-                    <th>מילים נרדפות</th>
-                    <th>מילים ניגודיות</th>
-
-
-                </tr>
-            </thead>
-            {tableBody(wordsList)}
-        </Table>
+        <Accordion defaultActiveKey={['0']} alwaysOpen>
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>מילים נרדפות</Accordion.Header>
+                <Accordion.Body>
+                    {getTable(getSynonyms(pairs))}
+                </Accordion.Body>
+            </Accordion.Item>
+        </Accordion>
+        <Accordion defaultActiveKey={['0']} alwaysOpen>
+            <Accordion.Item eventKey="0">
+                <Accordion.Header>מילים מנוגדות</Accordion.Header>
+                <Accordion.Body>
+                    {getTable(getOpposites(pairs))}
+                </Accordion.Body>
+            </Accordion.Item>
+        </Accordion>
     </Container>
 }
+export default WordsTab
