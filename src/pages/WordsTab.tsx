@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Accordion, Button, Container, Form, Table } from "react-bootstrap";
-import TextWithAudioField from "src/components/fields/TextWithAudioField";
-import NewWordDialog from "src/components/lessons/NewWordDialog";
-import { Lesson, QUESTION_TYPES, Question, QuestionDataDrawLine, QuestionDataMaleFemale, QuestionDataReadText, WORD_GENDER, WordData, WordsPair, WordsPairType } from "src/types/datatypes";
+import { Accordion, Button, Container, Table } from "react-bootstrap";
+import AddPairModal from "src/components/lessons/AddPairModal";
+import { WordsPair, WordsPairType, download } from "src/types/datatypes";
 
 const getTable = (pairs: Array<WordsPair>) => {
     if (pairs.length == 0) {
@@ -42,6 +41,10 @@ const getSynonyms = (list: Array<WordsPair>): Array<WordsPair> => {
     return list.filter((val: WordsPair) => { return val.type == WordsPairType.SYNONYM })
 }
 
+const exportList = (list: Array<WordsPair>): void => {
+    download(JSON.stringify(list, undefined, '\t'), "רשימת מילים " + new Date().toLocaleDateString() + ".json", "text/plain");
+}
+
 interface FieldProps {
     pairs: Array<WordsPair>
 }
@@ -52,11 +55,17 @@ const WordsTab: React.FC<FieldProps> = ({
 
     const [modalVisible, setModalVisible] = useState(false);
 
+    const addPair = () => {
+        <div>
+            <AddPairModal
+                onHide={() => { setModalVisible(false) }}
+                visible={modalVisible} />
+            <Button variant="primary" onClick={(e) => setModalVisible(true)}>הוספה</Button>
+        </div>
+    }
+
     return <Container fluid style={{ padding: "1rem" }}>
-        <NewWordDialog
-            onHide={() => { setModalVisible(false) }}
-            visible={modalVisible} />
-        <Button variant="primary" onClick={(e) => setModalVisible(true)}>הוספה</Button>
+        <Button onClick={(e) => exportList(pairs)}>ייצוא</Button>
         <Accordion defaultActiveKey={['0']} alwaysOpen>
             <Accordion.Item eventKey="0">
                 <Accordion.Header>מילים נרדפות</Accordion.Header>

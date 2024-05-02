@@ -5,6 +5,7 @@ import { useState } from 'react';
 import EditLesson from '../components/lessons/EditLesson';
 import 'src/assets/styles/MainPage.css'
 import React from 'react';
+import { download } from 'src/types/datatypes';
 
 export default function LessonsTab({lessonsList, setLessonsList}) {
 
@@ -31,14 +32,6 @@ export default function LessonsTab({lessonsList, setLessonsList}) {
         var newList = [...lessonsList]
         newList[idx] = newData
         setLessonsList(newList)
-    }
-
-    const download = function (content, fileName, contentType) {
-        const a = document.createElement("a");
-        const file = new Blob([content], { type: contentType });
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
     }
 
     const exportLesson = function (idx) {

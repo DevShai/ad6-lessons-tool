@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Col, Row, CloseButton, Stack } from "react-bootstrap";
+import { Form, CloseButton, Stack } from "react-bootstrap";
 import { getMediaPreview, TextWithVoice, WordsPair } from "src/types/datatypes";
 import FileInput from "./FileInput";
 
@@ -12,7 +12,7 @@ interface FieldProps {
     updateFirstWordAudio: (idx: number, event) => void,
     updateSecondWordText: (idx: number, value: string) => void,
     updateSecondWordAudio: (idx: number, event) => void,
-    
+
 }
 
 const getAudioPreview = (data: TextWithVoice, idx: number) => {
@@ -35,7 +35,7 @@ const WordsPairInput: React.FC<FieldProps> = ({
     updateFirstWordAudio,
     updateSecondWordText,
     updateSecondWordAudio,
- }) => {
+}) => {
 
     return (
         <Stack direction="horizontal" key={id} gap={5}>
