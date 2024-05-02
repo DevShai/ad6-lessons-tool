@@ -9,15 +9,26 @@ import { useLocalStorage } from 'usehooks-ts';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import LessonsTab from './LessonsTab';
-import { Lesson, WordData } from 'src/types/datatypes';
+import { Lesson, QUESTION_TYPES, QuestionDataSynonyms, WordData, WordsPair } from 'src/types/datatypes';
 import WordsTab from './WordsTab';
 
 export default function MainPage() {
 
-    const [lessonsList, setLessonsList] = useLocalStorage("lessons", []);
-    const [wordsList, setWordsList] = useLocalStorage("words", []);
-
+    const [lessonsList, setLessonsList] = useLocalStorage<Array<Lesson>>("lessons", []);
     const [currentTab, setCurrentTab] = useState("lessons");
+
+    const getAllPairs = () => {
+        let pairs: Array<WordsPair> = []
+        lessonsList.forEach(lesson => {
+            lesson.questions.forEach(question => {
+                if (question.type == QUESTION_TYPES.SYNONYMS_OPPOSITES) {
+                    let questionData = question as QuestionDataSynonyms
+                    pairs.push(...questionData.pairs)
+                }
+            });
+        });
+        return pairs
+    }
 
     return (
         <div className="MainPage">
@@ -38,7 +49,7 @@ export default function MainPage() {
                         setLessonsList={setLessonsList} />
                 </Tab>
                 <Tab title="מאגר מילים" eventKey={"words"}>
-                    <WordsTab words={wordsList}/>
+                    <WordsTab words={getAllPairs()}/>
                 </Tab>
 
             </Tabs>

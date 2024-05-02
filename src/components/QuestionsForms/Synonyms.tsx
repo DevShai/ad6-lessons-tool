@@ -3,6 +3,7 @@ import { Button, Container, Form, Row, Col, CloseButton, Stack } from "react-boo
 import { FileData, QuestionDataMaleFemale, QuestionDataSynonyms, WordsPair, WordsPairType, getBase64 } from "src/types/datatypes";
 import FileInput from "../fields/FileInput";
 import TextWithAudioField from "../fields/TextWithAudioField";
+import WordsPairInput from "../fields/WordsPairInput";
 
 export default function QuestionFormSynonyms(props) {
 
@@ -26,7 +27,7 @@ export default function QuestionFormSynonyms(props) {
     useEffect(() => {
         questionData.pairs = pairs
         questionData.mode = questionMode
-        setQuestionData({...questionData})
+        setQuestionData({ ...questionData })
     }, [pairs, questionMode])
 
     const addPair = () => {
@@ -36,6 +37,11 @@ export default function QuestionFormSynonyms(props) {
             type: questionMode
         }
         setPairs([...pairs, newPair])
+    }
+
+    const erasePair = (idx: number) => {
+        pairs.splice(idx, 1)
+        setPairs([...pairs])
     }
 
     const updateFirstWordText = (idx, value) => {
@@ -77,31 +83,16 @@ export default function QuestionFormSynonyms(props) {
                 </Form.Select>
             </Stack>
             {pairs.map((val, idx) => (
-                <Stack direction="horizontal" key={idx} gap={5}>
-                    <span>{idx + 1}</span>
-                    <Form.Group controlId={idx + "first"}>
-                        <Form.Label>מילה 1</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={val.firstWord.word.text}
-                            onChange={(e) => updateFirstWordText(idx, e.target.value)} />
-                        <FileInput
-                            file={val.firstWord.word.audio}
-                            acceptedFormats=".mp3"
-                            onFileChanged={(e) => { updateFirstWordAudio(idx, e) }} />
-                    </Form.Group>
-                    <Form.Group controlId={idx + "second"}>
-                        <Form.Label>מילה 2</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={val.secondWord.word.text}
-                            onChange={(e) => updateSecondWordText(idx, e.target.value)} />
-                        <FileInput
-                            file={val.secondWord.word.audio}
-                            acceptedFormats=".mp3"
-                            onFileChanged={(e) => updateSecondWordAudio(idx, e)} />
-                    </Form.Group>
-                </Stack>
+                <WordsPairInput
+                    key={idx}
+                    id={idx}
+                    pair={val}
+                    onErase={erasePair}
+                    updateFirstWordAudio={updateFirstWordAudio}
+                    updateFirstWordText={updateFirstWordText}
+                    updateSecondWordAudio={updateSecondWordAudio}
+                    updateSecondWordText={updateSecondWordText}
+                />
             ))}
             <Button onClick={addPair}>+</Button>
         </Container >
