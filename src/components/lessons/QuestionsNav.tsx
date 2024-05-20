@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CloseButton, Col, Container, DropdownButton, ListGroup, Row, Tab, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Button, CloseButton, Col, Container, DropdownButton, ListGroup, Row, Stack, Tab, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { CreateQuestion, getDisplayName, GetForm, Question, QUESTION_TYPES, QUESTION_TYPES_INFO } from 'src/types/datatypes';
 import 'src/assets/styles/MainPage.css'
@@ -51,21 +51,21 @@ export default function QuestionsNav(props) {
     return (
         <Container fluid >
             <Row>
-                <Col sm={3}>
-                    <h4 style={{ textDecoration: 'underline' }}>
-                        תרגילים
+                <Col sm={3} style={{ display: 'flex' }}>
+                    <h4 style={{ alignSelf: 'center' }}>
+                        הוספת תרגיל:
                     </h4>
                 </Col>
-                <Col sm={1}>
-                    <DropdownButton variant="success" title="הוספה" align="end">
-                        {Object.keys(QUESTION_TYPES_INFO).map((val: any, idx: number) => (
-                            <DropdownItem
-                                key={idx}
-                                onClick={() => props.addNewQuestion(QUESTION_TYPES_INFO[val])}>
-                                {val}
-                            </DropdownItem>
-                        ))}
-                    </DropdownButton>
+                <Col>
+                    <Stack direction='horizontal' gap={2}>
+                    {Object.keys(QUESTION_TYPES_INFO).map((val: any, idx: number) => (
+                        <Button
+                            key={idx}
+                            onClick={() => props.addNewQuestion(QUESTION_TYPES_INFO[val])}>
+                            {val}
+                        </Button>
+                    ))}
+                    </Stack>
                 </Col>
             </Row>
             <br />

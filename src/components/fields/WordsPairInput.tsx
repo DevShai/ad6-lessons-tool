@@ -15,15 +15,6 @@ interface FieldProps {
 
 }
 
-const getAudioPreview = (data: TextWithVoice, idx: number) => {
-    if (data.audio) {
-        return <audio controls src={getMediaPreview(data.audio.base64, "audio-" + idx)} />
-    }
-    else {
-        return ''
-    }
-}
-
 const WordsPairInput: React.FC<FieldProps> = ({
     id = 0,
     onErase,
